@@ -1,6 +1,6 @@
 [![main](https://github.com/MOV-AI/containers-ros-tools/actions/workflows/docker-ci.yml/badge.svg?branch=main)](https://github.com/MOV-AI/containers-ros-tools/actions/workflows/docker-ci.yml)
 
-# docker-ros-tools
+# containers-ros-tools
 
 ROS TOOLS Docker image for MOV.AI Framework
 
