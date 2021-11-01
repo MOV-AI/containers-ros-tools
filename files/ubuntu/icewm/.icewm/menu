@@ -1,0 +1,2 @@
+prog Terminal terminator /usr/bin/terminator
+prog RViz terminator /usr/local/bin/rviz.sh
