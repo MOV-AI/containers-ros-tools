@@ -17,7 +17,7 @@ on:
   #     types: [released]
 jobs:
   ros-tools-melodic:
-    uses: MOV-AI/containers-movai-base/.github/workflows/docker-workflow.yml@main
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
     with:
       docker_file: melodic/Dockerfile
       docker_image: registry.cloud.mov.ai/devops/ros-tools-melodic
@@ -26,7 +26,7 @@ jobs:
       registry_user: ${{ secrets.PORTUS_APP_USER }}
       registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
   ros-tools-noetic:
-    uses: MOV-AI/containers-movai-base/.github/workflows/docker-workflow.yml@main
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
     with:
       docker_file: noetic/Dockerfile
       docker_image: registry.cloud.mov.ai/devops/ros-tools-noetic
