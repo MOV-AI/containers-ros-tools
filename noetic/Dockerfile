@@ -28,7 +28,7 @@ ENV DISPLAY=:1 \
     NO_VNC_PORT=6901 \
     NO_VNC_HOME=/headless/noVNC \
     VNC_COL_DEPTH=24 \
-    VNC_RESOLUTION=1280x1024 \
+    VNC_RESOLUTION="1600x1200" \
     VNC_PASSWORD=${VNC_PASSWORD} \
     VNC_VIEW_ONLY=false \
     ROS_VERSION=${ROS_VERSION} \
@@ -72,7 +72,7 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     ### Install ROS1 Melodic tools
     $INST_SCRIPTS/ros-tools.sh && \
     ### Install Foxglove
-    $INST_SCRIPTS/foxglove.sh && \
+    # $INST_SCRIPTS/foxglove.sh && \
     ### Clean
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
