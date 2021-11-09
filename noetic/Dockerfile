@@ -56,8 +56,6 @@ COPY files/common/install/ files/ubuntu/install/ $INST_SCRIPTS/
 COPY files/ubuntu/icewm/ files/home $HOME/
 COPY files/common/scripts $STARTUPDIR
 COPY files/bin /usr/local/bin/
-COPY files/opt/ros/${ROS_VERSION}/shared/rviz/default.rviz /opt/ros/${ROS_VERSION}/shared/rviz/default.rviz
-
 
 RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     ### Install some common tools
@@ -72,13 +70,16 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     ### Install ROS1 Melodic tools
     $INST_SCRIPTS/ros-tools.sh && \
     ### Install Foxglove
-    # $INST_SCRIPTS/foxglove.sh && \
+    $INST_SCRIPTS/foxglove.sh && \
     ### Clean
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ### configure startup
     $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR ${HOME} && \
     chown -R movai:movai ${HOME}
+
+### Overwritting Rviz config
+COPY files/home/default.rviz /opt/ros/${ROS_VERSION}/share/rviz/default.rviz
 
 USER movai
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
