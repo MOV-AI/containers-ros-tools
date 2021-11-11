@@ -76,7 +76,9 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     rm -rf /var/lib/apt/lists/* && \
     ### configure startup
     $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR ${HOME} && \
-    chown -R movai:movai ${HOME}
+    chown -R movai:movai ${HOME} && \
+    # noetic python
+    ln -sf /usr/bin/python2 /usr/bin/python
 
 ### Overwritting Rviz config
 COPY files/home/default.rviz /opt/ros/${ROS_VERSION}/share/rviz/default.rviz
