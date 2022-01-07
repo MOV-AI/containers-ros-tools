@@ -16,8 +16,6 @@ ARG ROS_GPG_KEY=C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 ARG VNC_PASSWORD="movai"
 ARG ROS_MASTER="ros-master"
 ARG ROS_MASTER_PORT="11311"
-#Foxglove
-ENV FOXGLOVE_HOME=/headless/foxglove
 
 ## Connection ports for controlling the UI:
 # VNC port:5901
@@ -69,8 +67,6 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     $INST_SCRIPTS/icewm_ui.sh && \
     ### Install ROS1 Melodic tools
     $INST_SCRIPTS/ros-tools.sh && \
-    ### Install Foxglove
-    $INST_SCRIPTS/foxglove.sh && \
     ### Clean
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
