@@ -1,7 +1,5 @@
-# This Dockerfile is used to build an headless vnc image based on Ubuntu
-
-# FROM ros:noetic-ros-core-focal
-FROM ubuntu:focal
+# This Dockerfile is used to build an rviz image based on Ubuntu
+FROM ubuntu:20.04
 
 LABEL description="MOV.AI Graphical Tools"
 LABEL maintainer="devop@mov.ai"
@@ -27,9 +25,7 @@ ENV HOME=${USER_HOME} \
 ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
 
 ### Install rviz
-RUN apt update && apt install rviz -y
-
-RUN apt autoremove -y
+RUN apt-get update && apt-get install rviz -y && apt-get autoremove -y
 
 WORKDIR ${HOME}
 
