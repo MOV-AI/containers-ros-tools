@@ -1,5 +1,5 @@
 # This Dockerfile is used to build an rviz image based on Ubuntu
-FROM ubuntu:20.04
+FROM registry.cloud.mov.ai/devops/movai-base-focal:v1.2.0
 
 LABEL description="MOV.AI Graphical Tools"
 LABEL maintainer="devop@mov.ai"
@@ -43,8 +43,7 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     rm -rf /var/lib/apt/lists/* && \
     ### configure startup
     $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR ${HOME} && \
-    ### Add movai user
-    useradd -ms /bin/bash movai && \
+    ### fix owner
     chown -R movai:movai ${HOME} && \
     # noetic python
     ln -sf /usr/bin/python2 /usr/bin/python
