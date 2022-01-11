@@ -25,7 +25,10 @@ ENV HOME=${USER_HOME} \
 ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
 
 ### Install rviz
-RUN apt-get update && apt-get install rviz -y && apt-get autoremove -y
+RUN apt-get update && \
+    apt-get install rviz=1.13.7+dfsg-1build2 -y --no-install-recommends && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR ${HOME}
 
