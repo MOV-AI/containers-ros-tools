@@ -22,3 +22,7 @@ Build ROS TOOLS image based on ROS melodic :
 Build ROS TOOLS image based on ROS noetic :
 
     docker build -t ros-tools:noetic -f noetic/Dockerfile .
+
+Build ROS TOOLS image for CE (contains only Rviz and no ROS components) :
+
+    docker build -t ros-tools:ce -f ce/Dockerfile .
