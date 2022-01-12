@@ -1,5 +1,6 @@
 # This Dockerfile is used to build an rviz image based on Ubuntu
-FROM registry.cloud.mov.ai/devops/movai-base-focal:v1.2.0
+ARG DOCKER_REGISTRY="registry.cloud.mov.ai"
+FROM ${DOCKER_REGISTRY}/devops/movai-base-focal:v1.2.0
 
 LABEL description="MOV.AI Graphical Tools"
 LABEL maintainer="devop@mov.ai"
@@ -12,11 +13,9 @@ ARG USER_HOME=/headless
 ARG ROS_MASTER="ros-master"
 ARG ROS_MASTER_PORT="11311"
 
-
 ### Environment config
 ENV HOME=${USER_HOME} \
     TERM=xterm \
-    STARTUPDIR=/dockerstartup \
     INST_SCRIPTS=/headless/install \
     DEBIAN_FRONTEND=noninteractive \
     LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
@@ -33,8 +32,7 @@ RUN apt-get update && \
 WORKDIR ${HOME}
 
 ### Add all install scripts for further steps
-COPY files/common/install/ files/ubuntu/install/ $INST_SCRIPTS/
-COPY files/common/scripts $STARTUPDIR
+COPY files/common/install/set_user_permission.sh files/ubuntu/install/tools.sh $INST_SCRIPTS/
 COPY files/bin /usr/local/bin/
 
 RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
@@ -42,11 +40,9 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ### configure startup
-    $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR ${HOME} && \
+    $INST_SCRIPTS/set_user_permission.sh ${HOME} && \
     ### fix owner
-    chown -R movai:movai ${HOME} && \
-    # noetic python
-    ln -sf /usr/bin/python2 /usr/bin/python
+    chown -R movai:movai ${HOME}
 
 USER movai
 ENTRYPOINT ["/usr/local/bin/rviz.sh"]
