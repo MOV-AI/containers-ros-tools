@@ -34,3 +34,12 @@ jobs:
     secrets:
       registry_user: ${{ secrets.PORTUS_APP_USER }}
       registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
+  ros-tools-ce:
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
+    with:
+      docker_file: ce/Dockerfile
+      docker_image: registry.cloud.mov.ai/devops/ros-tools-ce
+      github_ref: ${{ github.ref }}
+    secrets:
+      registry_user: ${{ secrets.PORTUS_APP_USER }}
+      registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
