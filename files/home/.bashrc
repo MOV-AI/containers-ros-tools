@@ -113,6 +113,8 @@ if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
 
-source "/opt/ros/$ROS_DISTRO/setup.bash"
+if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then
+    source "/opt/ros/$ROS_DISTRO/setup.bash"
+fi
 
 export ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"

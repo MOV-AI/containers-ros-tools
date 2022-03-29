@@ -4,5 +4,5 @@ set -e
 
 echo "Install IceWM UI components"
 apt-get update
-apt-get install -y terminator
+apt-get install -y terminator rviz
 apt-get clean -y

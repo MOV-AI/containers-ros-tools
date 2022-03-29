@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an headless vnc image based on Ubuntu
-
-FROM osrf/ros:melodic-desktop-full
+ARG DOCKER_REGISTRY="registry.cloud.mov.ai"
+FROM ${DOCKER_REGISTRY}/devops/movai-base-melodic:v1.4.5
 
 LABEL description="MOV.AI Graphical Tools"
 LABEL maintainer="devop@mov.ai"
@@ -31,7 +31,8 @@ ENV DISPLAY=:1 \
     VNC_VIEW_ONLY=false \
     ROS_VERSION=${ROS_VERSION} \
     ROS_MASTER=${ROS_MASTER} \
-    ROS_MASTER_PORT=${ROS_MASTER_PORT}
+    ROS_MASTER_PORT=${ROS_MASTER_PORT} \
+    ROS_DISTRO=melodic
 
 ### Environment config
 ENV HOME=${USER_HOME} \
@@ -43,9 +44,6 @@ ENV HOME=${USER_HOME} \
 
 ### ROS Config
 ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
-
-RUN adduser --uid ${USER_ID} --home ${HOME} --disabled-password --gecos '' ${USER_NAME} && \
-    apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key "${ROS_GPG_KEY}"
 
 WORKDIR ${HOME}
 
@@ -75,7 +73,7 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     chown -R movai:movai ${HOME}
 
 ### Overwritting Rviz config
-COPY files/home/default.rviz /opt/ros/${ROS_VERSION}/share/rviz/default.rviz
+COPY --chown=movai:movai files/home/default.rviz /opt/ros/${ROS_VERSION}/share/rviz/default.rviz
 
 USER movai
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
