@@ -75,7 +75,7 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     chown -R movai:movai ${HOME}
 
 ### Overwritting Rviz config
-COPY files/home/default.rviz /opt/ros/${ROS_VERSION}/share/rviz/default.rviz
+COPY --chown=movai:movai files/home/default.rviz /opt/ros/${ROS_VERSION}/share/rviz/default.rviz
 
 USER movai
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
