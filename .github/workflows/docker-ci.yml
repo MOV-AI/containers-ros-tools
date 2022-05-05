@@ -21,7 +21,7 @@ jobs:
     uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
     with:
       docker_file: melodic/Dockerfile
-      docker_image: registry.cloud.mov.ai/devops/ros-tools-melodic
+      docker_image: devops/ros-tools-melodic
       github_ref: ${{ github.ref }}
     secrets:
       registry_user: ${{ secrets.PORTUS_APP_USER }}
@@ -30,7 +30,7 @@ jobs:
     uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
     with:
       docker_file: noetic/Dockerfile
-      docker_image: registry.cloud.mov.ai/devops/ros-tools-noetic
+      docker_image: devops/ros-tools-noetic
       github_ref: ${{ github.ref }}
     secrets:
       registry_user: ${{ secrets.PORTUS_APP_USER }}
@@ -39,7 +39,7 @@ jobs:
     uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
     with:
       docker_file: ce/Dockerfile
-      docker_image: registry.cloud.mov.ai/devops/ros-tools-ce
+      docker_image: devops/ros-tools-ce
       github_ref: ${{ github.ref }}
       public: true
       public_image: ce/ros-tools-ce
