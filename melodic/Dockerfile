@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an headless vnc image based on Ubuntu
 ARG DOCKER_REGISTRY="registry.cloud.mov.ai"
-FROM ${DOCKER_REGISTRY}/devops/movai-base-melodic:v1.4.5
+FROM ${DOCKER_REGISTRY}/devops/movai-base-bionic:v1.4.5
 
 LABEL description="MOV.AI Graphical Tools"
 LABEL maintainer="devop@mov.ai"
