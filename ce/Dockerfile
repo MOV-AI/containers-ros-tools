@@ -1,9 +1,9 @@
 # This Dockerfile is used to build an rviz image based on Ubuntu
-ARG DOCKER_REGISTRY="registry.aws.cloud.mov.ai"
-FROM ${DOCKER_REGISTRY}/devops/movai-base-focal:v1.2.0
+ARG DOCKER_REGISTRY="pubregistry.aws.cloud.mov.ai"
+FROM ${DOCKER_REGISTRY}/ce/movai-base-focal:v1.4.11
 
 LABEL description="MOV.AI Graphical Tools"
-LABEL maintainer="devop@mov.ai"
+LABEL maintainer="devops@mov.ai"
 LABEL movai="ros-tools"
 LABEL environment="develop"
 

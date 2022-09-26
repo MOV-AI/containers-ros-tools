@@ -18,31 +18,52 @@ on:
     types: [released]
 jobs:
   ros-tools-melodic:
-    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@v1
     with:
       docker_file: melodic/Dockerfile
       docker_image: devops/ros-tools-melodic
       github_ref: ${{ github.ref }}
+      deploy: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v')}}
+      version: ${GITHUB_REF##*/}
+      push_latest: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v') }}
+      snyk_check: true
     secrets:
       registry_user: ${{ secrets.PORTUS_APP_USER }}
       registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
+      pub_registry_user: ${{ secrets.PORTUS_APP_USER }}
+      pub_registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
+      snyk_token: ${{ secrets.SNYK_TOKEN }}
   ros-tools-noetic:
-    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@v1
     with:
       docker_file: noetic/Dockerfile
       docker_image: devops/ros-tools-noetic
       github_ref: ${{ github.ref }}
+      deploy: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v')}}
+      version: ${GITHUB_REF##*/}
+      push_latest: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v') }}
+      snyk_check: true
     secrets:
       registry_user: ${{ secrets.PORTUS_APP_USER }}
       registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
+      pub_registry_user: ${{ secrets.PORTUS_APP_USER }}
+      pub_registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
+      snyk_token: ${{ secrets.SNYK_TOKEN }}
   ros-tools-ce:
-    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@main
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@v1
     with:
       docker_file: ce/Dockerfile
       docker_image: devops/ros-tools-ce
-      github_ref: ${{ github.ref }}
       public: true
       public_image: ce/ros-tools-ce
+      github_ref: ${{ github.ref }}
+      deploy: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v')}}
+      version: ${GITHUB_REF##*/}
+      push_latest: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v') }}
+      snyk_check: true
     secrets:
       registry_user: ${{ secrets.PORTUS_APP_USER }}
       registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
+      pub_registry_user: ${{ secrets.PORTUS_APP_USER }}
+      pub_registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
+      snyk_token: ${{ secrets.SNYK_TOKEN }}

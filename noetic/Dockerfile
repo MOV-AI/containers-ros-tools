@@ -3,7 +3,7 @@
 FROM osrf/ros:noetic-desktop-full
 
 LABEL description="MOV.AI Graphical Tools"
-LABEL maintainer="devop@mov.ai"
+LABEL maintainer="devops@mov.ai"
 LABEL movai="ros-tools"
 LABEL environment="develop"
 
