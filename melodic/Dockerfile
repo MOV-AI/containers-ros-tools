@@ -3,7 +3,7 @@ ARG DOCKER_REGISTRY="registry.cloud.mov.ai"
 FROM ${DOCKER_REGISTRY}/devops/movai-base-bionic:v1.4.5
 
 LABEL description="MOV.AI Graphical Tools"
-LABEL maintainer="devop@mov.ai"
+LABEL maintainer="devops@mov.ai"
 LABEL movai="ros-tools"
 LABEL environment="develop"
 
