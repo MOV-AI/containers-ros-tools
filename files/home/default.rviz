@@ -5,11 +5,10 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Localization1
-        - /Localization1/2D1
-        - /Localization1/3D1
+        - /Mapping1
+        - /Localization1/3D1/Slam Odometry1
       Splitter Ratio: 0.5941042900085449
-    Tree Height: 486
+    Tree Height: 668
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -26,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Submaps Edges
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -57,6 +56,7 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
+      Marker Alpha: 1
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -103,9 +103,7 @@ Visualization Manager:
           Enabled: true
           Invert Rainbow: false
           Max Color: 255; 0; 0
-          Max Intensity: 4096
           Min Color: 0; 0; 0
-          Min Intensity: 0
           Name: Scan Front
           Position Transformer: XYZ
           Queue Size: 10
@@ -133,9 +131,7 @@ Visualization Manager:
           Enabled: true
           Invert Rainbow: false
           Max Color: 255; 0; 0
-          Max Intensity: 4096
           Min Color: 255; 170; 0
-          Min Intensity: 0
           Name: Scan Omni
           Position Transformer: XYZ
           Queue Size: 10
@@ -143,7 +139,7 @@ Visualization Manager:
           Size (Pixels): 3
           Size (m): 0.05000000074505806
           Style: Flat Squares
-          Topic: /laser_omni/scan
+          Topic: /lidar/scan
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: false
@@ -163,9 +159,7 @@ Visualization Manager:
           Enabled: true
           Invert Rainbow: false
           Max Color: 255; 255; 255
-          Max Intensity: 4096
           Min Color: 0; 0; 0
-          Min Intensity: 0
           Name: Scan Back
           Position Transformer: XYZ
           Queue Size: 10
@@ -193,9 +187,7 @@ Visualization Manager:
           Enabled: false
           Invert Rainbow: false
           Max Color: 255; 255; 255
-          Max Intensity: 4096
           Min Color: 0; 0; 0
-          Min Intensity: 0
           Name: Velodyne Cloud
           Position Transformer: XYZ
           Queue Size: 10
@@ -208,13 +200,13 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: false
-      Enabled: true
+      Enabled: false
       Name: Laser Scans
     - Class: rviz/Group
       Displays:
         - Class: rviz/Image
           Enabled: true
-          Image Topic: /camera_back/color/image_rect_color
+          Image Topic: /camera_back/color/image_rect_throttled
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -226,7 +218,7 @@ Visualization Manager:
           Value: true
         - Class: rviz/Image
           Enabled: true
-          Image Topic: /camera_front/color/image_rect_color
+          Image Topic: /camera_front/color/image_rect_throttled
           Max Value: 1
           Median window: 5
           Min Value: 0
@@ -251,9 +243,7 @@ Visualization Manager:
           Enabled: false
           Invert Rainbow: false
           Max Color: 255; 255; 255
-          Max Intensity: 4096
           Min Color: 0; 0; 0
-          Min Intensity: 0
           Name: Camera Back Points
           Position Transformer: XYZ
           Queue Size: 10
@@ -281,9 +271,7 @@ Visualization Manager:
           Enabled: false
           Invert Rainbow: false
           Max Color: 255; 255; 255
-          Max Intensity: 4096
           Min Color: 0; 0; 0
-          Min Intensity: 0
           Name: Camera Front Points
           Position Transformer: XYZ
           Queue Size: 10
@@ -298,6 +286,26 @@ Visualization Manager:
           Value: false
       Enabled: false
       Name: Cameras
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /obstacle_protection_footprint
+          Name: protection_area
+          Namespaces:
+            footprint: true
+          Queue Size: 100
+          Value: true
+        - Class: rviz/Marker
+          Enabled: false
+          Marker Topic: /obstacle_warning_footprint
+          Name: warning_area
+          Namespaces:
+            {}
+          Queue Size: 100
+          Value: false
+      Enabled: true
+      Name: Obstacle_Detection
     - Class: rviz/Group
       Displays:
         - Class: rviz/Group
@@ -326,6 +334,7 @@ Visualization Manager:
               Head Length: 0.20000000298023224
               Head Radius: 0.10000000149011612
               Name: Pose AMCL
+              Queue Size: 10
               Shaft Length: 1
               Shaft Radius: 0.05000000074505806
               Shape: Arrow
@@ -356,6 +365,7 @@ Visualization Manager:
               Head Length: 0.20000000298023224
               Head Radius: 0.10000000149011612
               Name: Pose AprilTags
+              Queue Size: 10
               Shaft Length: 1
               Shaft Radius: 0.05000000074505806
               Shape: Arrow
@@ -372,6 +382,7 @@ Visualization Manager:
               Head Length: 0.07000000029802322
               Head Radius: 0.029999999329447746
               Name: PoseArray
+              Queue Size: 10
               Shaft Length: 0.23000000417232513
               Shaft Radius: 0.009999999776482582
               Shape: Arrow (Flat)
@@ -397,9 +408,7 @@ Visualization Manager:
               Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
-              Max Intensity: 4096
               Min Color: 0; 0; 0
-              Min Intensity: 0
               Name: Maps Planes
               Position Transformer: XYZ
               Queue Size: 10
@@ -427,9 +436,7 @@ Visualization Manager:
               Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
-              Max Intensity: 4096
               Min Color: 0; 0; 0
-              Min Intensity: 0
               Name: Maps Edges
               Position Transformer: XYZ
               Queue Size: 10
@@ -457,9 +464,7 @@ Visualization Manager:
               Enabled: true
               Invert Rainbow: false
               Max Color: 255; 255; 255
-              Max Intensity: 4096
               Min Color: 0; 0; 0
-              Min Intensity: 0
               Name: Submaps Planes
               Position Transformer: XYZ
               Queue Size: 10
@@ -487,9 +492,7 @@ Visualization Manager:
               Enabled: true
               Invert Rainbow: false
               Max Color: 255; 255; 255
-              Max Intensity: 4096
               Min Color: 0; 0; 0
-              Min Intensity: 0
               Name: Submaps Edges
               Position Transformer: XYZ
               Queue Size: 10
@@ -517,9 +520,7 @@ Visualization Manager:
               Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
-              Max Intensity: 4096
               Min Color: 0; 0; 0
-              Min Intensity: 0
               Name: Registered Points
               Position Transformer: XYZ
               Queue Size: 10
@@ -547,9 +548,7 @@ Visualization Manager:
               Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
-              Max Intensity: 4096
               Min Color: 0; 0; 0
-              Min Intensity: 0
               Name: Current Edges
               Position Transformer: XYZ
               Queue Size: 10
@@ -577,9 +576,7 @@ Visualization Manager:
               Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
-              Max Intensity: 4096
               Min Color: 0; 0; 0
-              Min Intensity: 0
               Name: Current Planes
               Position Transformer: XYZ
               Queue Size: 10
@@ -613,6 +610,7 @@ Visualization Manager:
               Keep: 1
               Name: Slam Odometry
               Position Tolerance: 0.10000000149011612
+              Queue Size: 10
               Shape:
                 Alpha: 1
                 Axes Length: 1
@@ -623,7 +621,7 @@ Visualization Manager:
                 Shaft Length: 1
                 Shaft Radius: 0.05000000074505806
                 Value: Axes
-              Topic: /tugbot__localization__localization_slam__slam_monitor/slam_odometry/in
+              Topic: /tugbot__localization__localization_slam__lidar_slam/slam_odom/out
               Unreliable: false
               Value: true
           Enabled: true
@@ -649,10 +647,11 @@ Visualization Manager:
             Z: 0
           Pose Color: 255; 85; 255
           Pose Style: None
+          Queue Size: 10
           Radius: 0.029999999329447746
           Shaft Diameter: 0.10000000149011612
           Shaft Length: 0.10000000149011612
-          Topic: /tugbot__navigation__move_base/tugbot__navigation__move_base/TebLocalPlannerROS/local_plan/out
+          Topic: /tugbot__navigation__core__autonomous__move_base/tugbot__navigation__core__autonomous__move_base/TebLocalPlannerROS/local_plan/out
           Unreliable: false
           Value: true
         - Alpha: 1
@@ -672,10 +671,11 @@ Visualization Manager:
             Z: 0
           Pose Color: 255; 85; 255
           Pose Style: None
+          Queue Size: 10
           Radius: 0.029999999329447746
           Shaft Diameter: 0.10000000149011612
           Shaft Length: 0.10000000149011612
-          Topic: /tugbot__navigation__navigation_main/trajectory/in
+          Topic: /tugbot__navigation__core__autonomous__move_base/TebLocalPlannerROS/global_plan
           Unreliable: false
           Value: true
         - Alpha: 0.699999988079071
@@ -684,7 +684,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: Global Costmap
-          Topic: /tugbot__navigation__move_base/global_costmap/costmap
+          Topic: /tugbot__navigation__core__autonomous__move_base/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -694,7 +694,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: Local Costmap
-          Topic: /tugbot__navigation__move_base/local_costmap/costmap
+          Topic: /tugbot__navigation__core__autonomous__move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -722,6 +722,7 @@ Visualization Manager:
       Enabled: false
       History Length: 1
       Name: Imu
+      Queue Size: 10
       Topic: /drivers__imu_filter/imu_filtered/out
       Unreliable: false
       Value: false
@@ -752,21 +753,26 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0.025000112131237984
-      Class: rviz/TopDownOrtho
+      Class: rviz/Orbit
+      Distance: 10.71345329284668
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
+      Field of View: 0.7853981852531433
+      Focal Point:
+        X: -0.4448740482330322
+        Y: -0.15840429067611694
+        Z: -0.26984840631484985
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 20.264244079589844
+      Pitch: 0.7597967386245728
       Target Frame: base_link
-      Value: TopDownOrtho (rviz)
-      X: -4.370036602020264
-      Y: -0.1426459699869156
+      Yaw: 5.013184070587158
     Saved: ~
 Window Geometry:
   Camera Back Image:
@@ -775,10 +781,10 @@ Window Geometry:
     collapsed: false
   Displays:
     collapsed: false
-  Height: 944
+  Height: 1154
   Hide Left Dock: false
-  Hide Right Dock: true
-  QMainWindow State: 000000ff00000000fd0000000400000000000001bb0000030efc020000000cfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005d00fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000003f000000940000005d00fffffffb000000100044006900730070006c00610079007301000000d900000274000000cc00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00430061006d0065007200610000000253000001200000000000000000fb0000002200430061006d0065007200610020004200610063006b00200049006d00610067006500000001d8000000ca0000001700fffffffb0000002200430061006d0065007200610020004200610063006b00200049006d00610067006500000002ae000000c50000000000000000fb0000002400430061006d006500720061002000460072006f006e007400200049006d0061006700650000000263000001100000001700ffffff000000010000010f00000316fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003b00000316000000a900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004380000003efc0100000002fb0000000800540069006d0065010000000000000438000002df00fffffffb0000000800540069006d00650100000000000004500000000000000000000002770000030e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd0000000400000000000001bb000003e8fc020000000cfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000003b000000bd0000005c00fffffffb000000100044006900730070006c00610079007301000000fe00000325000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00430061006d0065007200610000000253000001200000000000000000fb0000002200430061006d0065007200610020004200610063006b00200049006d00610067006500000002c7000000820000001600fffffffb0000002200430061006d0065007200610020004200610063006b00200049006d00610067006500000002ae000000c50000000000000000fb0000002400430061006d006500720061002000460072006f006e007400200049006d006100670065000000034f000000d40000001600ffffff000000010000010f000003e8fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003b000003e8000000a000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000006400000003efc0100000002fb0000000800540069006d00650100000000000006400000024400fffffffb0000000800540069006d006501000000000000045000000000000000000000036a000003e800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -786,7 +792,7 @@ Window Geometry:
   Tool Properties:
     collapsed: false
   Views:
-    collapsed: true
-  Width: 1080
-  X: 0
-  Y: 34
+    collapsed: false
+  Width: 1600
+  X: -6
+  Y: -6
