@@ -702,7 +702,7 @@ Visualization Manager:
       History Length: 1
       Name: Imu
       Queue Size: 10
-      Topic: /drivers__imu_filter/imu_filtered/out
+      Topic: /imu/data/filtered
       Unreliable: false
       Value: false
   Enabled: true
