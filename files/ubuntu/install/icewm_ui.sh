@@ -4,6 +4,6 @@ set -e
 
 echo "Install IceWM UI components"
 apt-get update
-apt-get install --no-install-recommends -y supervisor icewm xterm xfonts-base xauth xinit
-apt-get purge -y pm-utils xscreensaver*
+apt-get install -y supervisor icewm xterm xfonts-base xauth xinit dbus-x11 libdbus-glib-1-2
+apt-get purge -y pm-utils *screensaver*
 apt-get clean -y

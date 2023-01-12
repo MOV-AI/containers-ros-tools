@@ -8,17 +8,12 @@ Image is built in 3 flavours:
 
 | Flavour      | Base Image | Python |
 | ------------ | ---------- | ------ |
-| ros-tools-melodic | ros:melodic-robot | 3.6.9 |
-| ros-tools-noetic | ros:noetic-robot | 3.8.10 |
-| ros-tools-ce | movai-base-focal:v1.2.0 | 3.8.10 |
+| ros-tools-noetic | movai-base-focal:v2.4.0 | 3.8.10 |
+| ros-tools-ce | movai-base-focal:v2.4.0 | 3.8.10 |
 
 ## About
 
 ## Usage
-
-Build ROS TOOLS image based on ROS melodic :
-
-    docker build -t ros-tools:melodic -f melodic/Dockerfile .
 
 Build ROS TOOLS image based on ROS noetic :
 
@@ -27,3 +22,7 @@ Build ROS TOOLS image based on ROS noetic :
 Build ROS TOOLS image for CE (contains only Rviz and no ROS components) :
 
     docker build -t ros-tools:ce -f ce/Dockerfile .
+
+## License
+
+Forked from https://github.com/ConSol/docker-headless-vnc-container

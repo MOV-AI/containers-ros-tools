@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an headless vnc image based on Ubuntu
-ARG DOCKER_REGISTRY="registry.cloud.mov.ai"
-FROM ${DOCKER_REGISTRY}/devops/movai-base-focal:v2.4.0
+ARG DOCKER_REGISTRY="pubregistry.cloud.mov.ai"
+FROM ${DOCKER_REGISTRY}/ce/movai-base-focal:v2.4.0
 
 LABEL description="MOV.AI Graphical Tools"
 LABEL maintainer="devops@mov.ai"
@@ -34,6 +34,8 @@ ENV DISPLAY=:1 \
     ROS_MASTER_PORT=${ROS_MASTER_PORT} \
     ROS_DISTRO=noetic
 
+EXPOSE $VNC_PORT $NO_VNC_PORT
+
 ### Environment config
 ENV HOME=${USER_HOME} \
     TERM=xterm \
@@ -47,10 +49,14 @@ ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
 
 WORKDIR ${HOME}
 
+USER root
+
 ### Add all install scripts for further steps
 COPY files/common/install/ files/ubuntu/install/ $INST_SCRIPTS/
-COPY files/ubuntu/icewm/ files/home $HOME/
 COPY files/common/scripts $STARTUPDIR
+
+COPY files/ubuntu/icewm/ files/home $HOME/
+
 COPY files/bin /usr/local/bin/
 
 RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
@@ -69,10 +75,14 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ### configure startup
+    $INST_SCRIPTS/libnss_wrapper.sh && \
     $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR ${HOME} && \
     chown -R movai:movai ${HOME} && \
-    # noetic python
-    ln -sf /usr/bin/python2 /usr/bin/python
+    # Clean apt
+    apt-get autoremove -y && \
+    apt-get clean -y > /dev/null && \
+    rm -rf /var/cache/apt/* && \
+    rm -rf /var/lib/apt/lists/*
 
 ### Overwritting Rviz config
 COPY --chown=movai:movai files/home/default.rviz /opt/ros/${ROS_VERSION}/share/rviz/default.rviz

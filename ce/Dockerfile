@@ -23,12 +23,6 @@ ENV HOME=${USER_HOME} \
 ### ROS Config
 ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
 
-### Install rviz
-RUN apt-get update && \
-    apt-get install rviz=1.13.7+dfsg-1build2 -y --no-install-recommends && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
-
 WORKDIR ${HOME}
 
 ### Add all install scripts for further steps
@@ -36,6 +30,11 @@ COPY files/common/install/set_user_permission.sh files/ubuntu/install/tools.sh $
 COPY files/bin /usr/local/bin/
 
 RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
+    ### Install rviz
+    apt-get update && \
+    apt-get install rviz=1.13.7+dfsg-1build2 -y --no-install-recommends && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/* && \
     ### Clean
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \

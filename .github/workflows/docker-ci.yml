@@ -17,20 +17,6 @@ on:
   release:
     types: [released]
 jobs:
-  ros-tools-melodic:
-    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@v1
-    with:
-      docker_file: melodic/Dockerfile
-      docker_image: devops/ros-tools-melodic
-      github_ref: ${{ github.ref }}
-      deploy: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v')}}
-      version: ${GITHUB_REF##*/}
-      push_latest: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v') }}
-      snyk_check: true
-    secrets:
-      registry_user: ${{ secrets.PORTUS_APP_USER }}
-      registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
-      snyk_token: ${{ secrets.SNYK_TOKEN }}
   ros-tools-noetic:
     uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@v1
     with:
