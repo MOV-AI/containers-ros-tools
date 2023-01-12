@@ -1,5 +1,5 @@
 # This Dockerfile is used to build an headless vnc image based on Ubuntu
-ARG DOCKER_REGISTRY="pubregistry.cloud.mov.ai"
+ARG DOCKER_REGISTRY="pubregistry.aws.cloud.mov.ai"
 FROM ${DOCKER_REGISTRY}/ce/movai-base-focal:v2.4.0
 
 LABEL description="MOV.AI Graphical Tools"
