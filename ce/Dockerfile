@@ -33,9 +33,8 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     ### Install rviz
     apt-get update && \
     apt-get install rviz=1.13.7+dfsg-1build2 -y --no-install-recommends && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/* && \
     ### Clean
+    apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ### configure startup
