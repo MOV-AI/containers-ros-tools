@@ -59,6 +59,6 @@ fi
 
 export PYTHONPATH=${APP_PATH}:${PYTHONPATH}
 
-cat ${MOVAI_HOME}/.welcome
+cat ${HOME}/.welcome
 
 printf "Welcome! Have fun!\n"
