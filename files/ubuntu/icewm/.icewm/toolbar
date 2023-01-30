@@ -1,4 +1,5 @@
 prog xterm xterm xterm
 prog Terminator terminator /usr/bin/terminator
 prog RViz rviz /usr/local/bin/rviz.sh
+prog Foxglove foxglove /usr/local/bin/foxglove
 separator
