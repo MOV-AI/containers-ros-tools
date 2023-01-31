@@ -8,7 +8,7 @@ curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo ap
 
 echo "Install ROS-Tools components"
 apt-get update
-apt-get install --no-install-recommends -y rviz
-# apt-get install --no-install-recommends -y "ros-$ROS_DISTRO-rqt" "ros-$ROS_DISTRO-rqt-common-plugins"
+apt-get install -y ros-noetic-rqt-plot ros-noetic-rqt-tf-tree ros-noetic-rqt-reconfigure --no-install-recommends
 apt-get autoremove -y
 apt-get clean -y
+rm -rf /var/lib/apt/lists/*

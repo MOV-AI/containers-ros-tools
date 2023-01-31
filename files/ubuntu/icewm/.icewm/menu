@@ -1,6 +1,17 @@
-prog xterm xterm xterm
-prog Terminator terminator /usr/bin/terminator
-prog Foxglove foxglove /usr/local/bin/foxglove
-prog RViz rviz /usr/local/bin/rviz.sh
-separator
-
+menu "Development" folder {
+prog "Foxglove Studio" foxglove-studio /usr/local/bin/foxglove
+prog RViz /usr/share/rviz/icons/package.png /usr/local/bin/rviz.sh
+}
+menu "System" folder {
+menu "TerminalEmulator" folder {
+prog "Terminator" terminator terminator
+prog "UXTerm" mini.xterm uxterm
+prog "XTerm" mini.xterm xterm
+}
+}
+menu "Utility" folder {
+prog "Terminator" terminator terminator
+menu "TextEditor" folder {
+prog "Vim" gvim x-terminal-emulator -e vim
+}
+}

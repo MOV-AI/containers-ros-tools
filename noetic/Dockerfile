@@ -73,6 +73,7 @@ RUN $INST_SCRIPTS/foxglove.sh
 
 ### Install ROS1 tools
 ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
+RUN $INST_SCRIPTS/rqt.sh
 RUN $INST_SCRIPTS/ros-tools.sh && \
     ### Clean
     apt-get clean && \
