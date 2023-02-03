@@ -44,9 +44,6 @@ ENV HOME=${USER_HOME} \
     DEBIAN_FRONTEND=noninteractive \
     LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
-### ROS Config
-ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
-
 WORKDIR ${HOME}
 
 USER root
@@ -59,18 +56,25 @@ COPY files/ubuntu/icewm/ files/home $HOME/
 
 COPY files/bin /usr/local/bin/
 
+### Install some common tools
 RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
-    ### Install some common tools
     $INST_SCRIPTS/tools.sh && \
     ### Install custom fonts
-    $INST_SCRIPTS/install_custom_fonts.sh && \
-    ### Install xvnc-server & noVNC - HTML5 based VNC viewer
-    $INST_SCRIPTS/tigervnc.sh && \
-    $INST_SCRIPTS/no_vnc.sh && \
-    ### Install IceWM UI
-    $INST_SCRIPTS/icewm_ui.sh && \
-    ### Install ROS1 Melodic tools
-    $INST_SCRIPTS/ros-tools.sh && \
+    $INST_SCRIPTS/install_custom_fonts.sh
+### Install xvnc-server & noVNC - HTML5 based VNC viewer
+RUN $INST_SCRIPTS/tigervnc.sh && \
+    $INST_SCRIPTS/no_vnc.sh
+
+### Install IceWM UI
+RUN $INST_SCRIPTS/icewm_ui.sh
+
+### Install Foxglove
+RUN $INST_SCRIPTS/foxglove.sh
+
+### Install ROS1 tools
+ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
+RUN $INST_SCRIPTS/rqt.sh
+RUN $INST_SCRIPTS/ros-tools.sh && \
     ### Clean
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
