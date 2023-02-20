@@ -18,7 +18,7 @@ on:
     types: [released]
 jobs:
   ros-tools-noetic:
-    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@v1
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@v2
     with:
       docker_file: noetic/Dockerfile
       docker_image: devops/ros-tools-noetic
@@ -32,7 +32,7 @@ jobs:
       registry_password: ${{ secrets.PORTUS_APP_TOKEN }}
       snyk_token: ${{ secrets.SNYK_TOKEN }}
   ros-tools-ce:
-    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@v1
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@v2
     with:
       docker_file: ce/Dockerfile
       docker_image: devops/ros-tools-ce
