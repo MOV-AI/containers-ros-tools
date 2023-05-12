@@ -1,3 +1,4 @@
 WorkspaceNames=" 1 "
-TaskBarShowMailboxStatus = 0
-TaskBarShowWorkspaces = 0
+TaskBarShowMailboxStatus=0
+TaskBarShowWorkspaces=0
+ShowProgramsMenu=0
