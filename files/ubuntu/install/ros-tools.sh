@@ -8,7 +8,7 @@ curl -fsSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | gpg 
 
 echo "Install ROS-Tools components"
 apt-get update
-apt-get install --no-install-recommends -y ros-noetic-rviz=1.14.20*
+apt-get install --no-install-recommends -y ros-$ROS_DISTRO-rviz=1.14.20*
 apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
