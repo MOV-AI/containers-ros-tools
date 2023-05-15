@@ -1,6 +1,6 @@
 menu "Development" folder {
 prog "Foxglove Studio" foxglove-studio /usr/local/bin/foxglove
-prog RViz /usr/share/rviz/icons/package.png /usr/local/bin/rviz.sh
+prog RViz /opt/ros/noetic/share/rviz/icons/package.png /usr/local/bin/rviz.sh
 }
 menu "System" folder {
 menu "TerminalEmulator" folder {

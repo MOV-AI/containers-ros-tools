@@ -1,5 +1,5 @@
 prog xterm xterm xterm
 prog Terminator terminator /usr/bin/terminator
-prog RViz /usr/share/rviz/icons/package.png /usr/local/bin/rviz.sh
+prog RViz /opt/ros/noetic/share/rviz/icons/package.png /usr/local/bin/rviz.sh
 prog Foxglove foxglove-studio /usr/local/bin/foxglove
 separator
