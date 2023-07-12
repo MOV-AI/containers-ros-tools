@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an headless vnc image based on Ubuntu
 ARG DOCKER_REGISTRY="pubregistry.aws.cloud.mov.ai"
-FROM ${DOCKER_REGISTRY}/ce/movai-base-focal:v2.4.0
+FROM ${DOCKER_REGISTRY}/ce/movai-base-focal:v2.4.2
 
 LABEL description="MOV.AI Graphical Tools"
 LABEL maintainer="devops@mov.ai"
@@ -73,8 +73,8 @@ RUN $INST_SCRIPTS/foxglove.sh
 
 ### Install ROS1 tools
 ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
-RUN $INST_SCRIPTS/rqt.sh
 RUN $INST_SCRIPTS/ros-tools.sh && \
+    $INST_SCRIPTS/rqt.sh && \
     ### Clean
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
