@@ -89,7 +89,8 @@ RUN $INST_SCRIPTS/ros-tools.sh && \
     rm -rf /var/lib/apt/lists/*
 
 ### Overwritting Rviz config
-COPY --chown=movai:movai files/home/default.rviz /opt/ros/${ROS_VERSION}/share/rviz/default.rviz
+RUN mkdir -p ~/.rviz
+COPY --chown=movai:movai files/home/default.rviz ~/.rviz/default.rviz
 
 USER movai
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]

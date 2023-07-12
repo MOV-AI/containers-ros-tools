@@ -1,5 +1,5 @@
 #!/bin/bash
 # File: rviz.sh
 set -e
-
-ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}" "/usr/bin/rviz"
+. /opt/ros/noetic/setup.bash
+ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}" "/opt/ros/noetic/bin/rviz" "-d" "/headless/default.rviz"
