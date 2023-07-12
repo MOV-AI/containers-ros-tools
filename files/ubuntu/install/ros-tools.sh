@@ -2,13 +2,13 @@
 ### every exit != 0 fails the script
 set -e
 
-echo "Setup ROS-Tools repo"
-sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+echo "Setup movai ROS-Tools mirror repo"
+curl -fsSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | gpg --dearmor -o /usr/share/keyrings/ros.key
+    echo "deb [signed-by=/usr/share/keyrings/ros.key] https://artifacts.aws.cloud.mov.ai/repository/ppa-proxy-ros focal main" | tee /etc/apt/sources.list.d/movai-ros.list > /dev/null
 
 echo "Install ROS-Tools components"
 apt-get update
-apt-get install --no-install-recommends -y rviz
+apt-get install --no-install-recommends -y ros-$ROS_DISTRO-rviz=1.14.20*
 apt-get autoremove -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
