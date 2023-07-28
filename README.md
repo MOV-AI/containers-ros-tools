@@ -8,8 +8,8 @@ Image is built in 3 flavours:
 
 | Flavour      | Base Image | Python |
 | ------------ | ---------- | ------ |
-| ros-tools-noetic | movai-base-focal:v2.4.0 | 3.8.10 |
-| ros-tools-ce | movai-base-focal:v2.4.0 | 3.8.10 |
+| ros-tools-noetic | movai-base-focal:v2.4.3 | 3.8.10 |
+| ros-tools-ce | movai-base-focal:v2.4.3 | 3.8.10 |
 
 ## About
 
