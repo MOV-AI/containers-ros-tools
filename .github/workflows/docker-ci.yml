@@ -23,6 +23,7 @@ jobs:
       docker_file: noetic/Dockerfile
       docker_image: devops/ros-tools-noetic
       deploy: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v')}}
+      version: ${GITHUB_REF##*/}
       push_latest: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v') }}
       snyk_check: true
     secrets:
@@ -39,6 +40,7 @@ jobs:
       public: true
       public_image: ce/ros-tools-ce
       deploy: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v')}}
+      version: ${GITHUB_REF##*/}
       push_latest: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v') }}
       snyk_check: true
     secrets:
