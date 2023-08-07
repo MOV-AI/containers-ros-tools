@@ -23,6 +23,7 @@ Build ROS TOOLS image for CE (contains only Rviz and no ROS components) :
 
     docker build -t ros-tools:ce -f ce/Dockerfile .
 
+
 ## License
 
 Forked from https://github.com/ConSol/docker-headless-vnc-container
