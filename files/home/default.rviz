@@ -50,24 +50,15 @@ Visualization Manager:
       Value: true
     - Class: rviz/TF
       Enabled: true
-      Filter (blacklist): ""
-      Filter (whitelist): ""
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        map:
-          Value: true
-        odom:
-          Value: true
-      Marker Alpha: 1
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
-      Tree:
-        map:
-          odom: {}
+      Tree: {}
       Update Interval: 0
       Value: true
     - Alpha: 0.699999988079071
@@ -107,7 +98,9 @@ Visualization Manager:
           Enabled: true
           Invert Rainbow: false
           Max Color: 255; 0; 0
+          Max Intensity: 4096
           Min Color: 0; 0; 0
+          Min Intensity: 0
           Name: Scan Front
           Position Transformer: XYZ
           Queue Size: 10
@@ -135,7 +128,9 @@ Visualization Manager:
           Enabled: true
           Invert Rainbow: false
           Max Color: 255; 0; 0
+          Max Intensity: 4096
           Min Color: 255; 170; 0
+          Min Intensity: 0
           Name: Scan Omni
           Position Transformer: XYZ
           Queue Size: 10
@@ -163,7 +158,9 @@ Visualization Manager:
           Enabled: true
           Invert Rainbow: false
           Max Color: 255; 255; 255
+          Max Intensity: 4096
           Min Color: 0; 0; 0
+          Min Intensity: 0
           Name: Scan Back
           Position Transformer: XYZ
           Queue Size: 10
@@ -191,7 +188,9 @@ Visualization Manager:
           Enabled: false
           Invert Rainbow: false
           Max Color: 255; 255; 255
+          Max Intensity: 4096
           Min Color: 0; 0; 0
+          Min Intensity: 0
           Name: Velodyne Cloud
           Position Transformer: XYZ
           Queue Size: 10
@@ -247,7 +246,9 @@ Visualization Manager:
           Enabled: false
           Invert Rainbow: false
           Max Color: 255; 255; 255
+          Max Intensity: 4096
           Min Color: 0; 0; 0
+          Min Intensity: 0
           Name: Camera Back Points
           Position Transformer: XYZ
           Queue Size: 10
@@ -275,7 +276,9 @@ Visualization Manager:
           Enabled: false
           Invert Rainbow: false
           Max Color: 255; 255; 255
+          Max Intensity: 4096
           Min Color: 0; 0; 0
+          Min Intensity: 0
           Name: Camera Front Points
           Position Transformer: XYZ
           Queue Size: 10
@@ -336,7 +339,6 @@ Visualization Manager:
               Head Length: 0.20000000298023224
               Head Radius: 0.10000000149011612
               Name: Pose AMCL
-              Queue Size: 10
               Shaft Length: 1
               Shaft Radius: 0.05000000074505806
               Shape: Arrow
@@ -367,7 +369,6 @@ Visualization Manager:
               Head Length: 0.20000000298023224
               Head Radius: 0.10000000149011612
               Name: Pose AprilTags
-              Queue Size: 10
               Shaft Length: 1
               Shaft Radius: 0.05000000074505806
               Shape: Arrow
@@ -384,7 +385,6 @@ Visualization Manager:
               Head Length: 0.07000000029802322
               Head Radius: 0.029999999329447746
               Name: PoseArray
-              Queue Size: 10
               Shaft Length: 0.23000000417232513
               Shaft Radius: 0.009999999776482582
               Shape: Arrow (Flat)
@@ -410,7 +410,9 @@ Visualization Manager:
               Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
+              Max Intensity: 4096
               Min Color: 0; 0; 0
+              Min Intensity: 0
               Name: Maps Planes
               Position Transformer: XYZ
               Queue Size: 10
@@ -438,7 +440,9 @@ Visualization Manager:
               Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
+              Max Intensity: 4096
               Min Color: 0; 0; 0
+              Min Intensity: 0
               Name: Maps Edges
               Position Transformer: XYZ
               Queue Size: 10
@@ -466,7 +470,9 @@ Visualization Manager:
               Enabled: true
               Invert Rainbow: false
               Max Color: 255; 255; 255
+              Max Intensity: 134
               Min Color: 0; 0; 0
+              Min Intensity: 0
               Name: Submaps Planes
               Position Transformer: XYZ
               Queue Size: 10
@@ -494,7 +500,9 @@ Visualization Manager:
               Enabled: true
               Invert Rainbow: false
               Max Color: 255; 255; 255
+              Max Intensity: 240
               Min Color: 0; 0; 0
+              Min Intensity: 0
               Name: Submaps Edges
               Position Transformer: XYZ
               Queue Size: 10
@@ -522,7 +530,9 @@ Visualization Manager:
               Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
+              Max Intensity: 4096
               Min Color: 0; 0; 0
+              Min Intensity: 0
               Name: Registered Points
               Position Transformer: XYZ
               Queue Size: 10
@@ -550,7 +560,9 @@ Visualization Manager:
               Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
+              Max Intensity: 4096
               Min Color: 0; 0; 0
+              Min Intensity: 0
               Name: Current Edges
               Position Transformer: XYZ
               Queue Size: 10
@@ -578,7 +590,9 @@ Visualization Manager:
               Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
+              Max Intensity: 4096
               Min Color: 0; 0; 0
+              Min Intensity: 0
               Name: Current Planes
               Position Transformer: XYZ
               Queue Size: 10
@@ -612,7 +626,6 @@ Visualization Manager:
               Keep: 1
               Name: Slam Odometry
               Position Tolerance: 0.10000000149011612
-              Queue Size: 10
               Shape:
                 Alpha: 1
                 Axes Length: 1
@@ -649,7 +662,6 @@ Visualization Manager:
             Z: 0
           Pose Color: 255; 85; 255
           Pose Style: None
-          Queue Size: 10
           Radius: 0.029999999329447746
           Shaft Diameter: 0.10000000149011612
           Shaft Length: 0.10000000149011612
@@ -673,7 +685,6 @@ Visualization Manager:
             Z: 0
           Pose Color: 255; 85; 255
           Pose Style: None
-          Queue Size: 10
           Radius: 0.029999999329447746
           Shaft Diameter: 0.10000000149011612
           Shaft Length: 0.10000000149011612
@@ -778,10 +789,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 8.410575866699219
+      Scale: 80.61504364013672
       Target Frame: base_link
-      X: 3.3774471282958984
-      Y: -72.38020324707031
+      Value: TopDownOrtho (rviz)
+      X: 1.9416037797927856
+      Y: -2.2285892963409424
     Saved: ~
 Window Geometry:
   Camera Back Image:
