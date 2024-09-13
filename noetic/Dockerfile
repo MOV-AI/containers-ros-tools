@@ -54,7 +54,7 @@ COPY files/common/scripts $STARTUPDIR
 
 COPY files/ubuntu/icewm/ files/home $HOME/
 
-COPY files/bin /usr/local/bin/
+COPY files/movai-entrypoint.sh /usr/local/bin/
 
 ### Install some common tools
 RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \

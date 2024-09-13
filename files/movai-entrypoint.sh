@@ -16,4 +16,5 @@
 #
 # File: movai-entrypoint.sh
 
-exec /dockerstartup/vnc_startup.sh ${@}
+echo "Starting VNC server..."
+exec /dockerstartup/vnc_startup.sh "${@}"
