@@ -93,5 +93,5 @@ RUN mkdir -p ~/.rviz
 COPY --chown=movai:movai files/home/default.rviz ~/.rviz/default.rviz
 
 USER movai
-ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["--wait"]
