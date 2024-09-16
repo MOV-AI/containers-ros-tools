@@ -55,6 +55,7 @@ COPY files/common/scripts $STARTUPDIR
 COPY files/ubuntu/icewm/ files/home $HOME/
 
 COPY files/bin /usr/local/bin/
+COPY files/movai-entrypoint.sh /usr/local/bin/
 
 ### Install some common tools
 RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
@@ -93,5 +94,5 @@ RUN mkdir -p ~/.rviz
 COPY --chown=movai:movai files/home/default.rviz ~/.rviz/default.rviz
 
 USER movai
-ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["--wait"]
