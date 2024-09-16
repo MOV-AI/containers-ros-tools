@@ -23,4 +23,4 @@ ln -sf /proc/1/fd/1 ${APP_LOGS}/stdout
 [ -f ${MOVAI_HOME}/.welcome ] && cat ${MOVAI_HOME}/.welcome
 
 # Run command
-exec /usr/local/bin/movai-entrypoint.sh ${@}
+exec /usr/local/bin/movai-entrypoint.sh "${@}"
