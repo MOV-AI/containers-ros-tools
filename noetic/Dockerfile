@@ -69,8 +69,8 @@ RUN $INST_SCRIPTS/tigervnc.sh && \
 ### Install IceWM UI
 RUN $INST_SCRIPTS/icewm_ui.sh
 
-### Install Foxglove
-RUN $INST_SCRIPTS/foxglove.sh
+### Install Lichtblick
+RUN $INST_SCRIPTS/lichtblick.sh
 
 ### Install ROS1 tools
 ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"

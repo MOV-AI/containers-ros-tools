@@ -23,7 +23,22 @@ Build ROS TOOLS image for CE (contains only Rviz and no ROS components) :
 
     docker build -t ros-tools:ce -f ce/Dockerfile .
 
+## Run
+
+Run the image with the following command where `robot_network` is the name of the network created by MOV.AI Framework or any other network you want to use.
+
+>Note that the network must be created before running the container and a roscore must be running on the network.
+
+    robot_network=$(docker network ls | grep MovaiNetwork | awk '{print $2}')
+    docker run -it --rm \
+        --name ros-tools \
+        --network $robot_network \
+        --gpus all \
+        ros-tools:noetic
+
 
 ## License
 
 Forked from https://github.com/ConSol/docker-headless-vnc-container
+
+Includes Lichtblick: https://github.com/lichtblick-suite/lichtblick/
