@@ -6,7 +6,7 @@ set -e
 help (){
 echo "
 USAGE:
-docker run -it -p 6901:6901 -p 5901:5901 rost-tools:<tag> <option>
+docker run -it -p 6901:6901 -p 5901:5901 ros-tools:<tag> <option>
 
 OPTIONS:
 -w, --wait      (default) keeps the UI and the vncserver up until SIGINT or SIGTERM will received

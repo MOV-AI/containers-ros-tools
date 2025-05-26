@@ -118,3 +118,5 @@ if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then
 fi
 
 export ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
+
+export DISABLE_ROS1_EOL_WARNINGS=1

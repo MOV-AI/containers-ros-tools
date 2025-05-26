@@ -13,6 +13,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     /tmp/lichtblick/lichtblick-${LICHTBLICK_VERSION}-linux-${LICHTBLICK_ARCH}.deb
 
 cat << EOF  > /usr/local/bin/lichtblick
+#!/bin/bash
 export LICHTBLICK_DISABLE_SIGN_IN=true
 "/opt/Lichtblick/lichtblick" --no-sandbox
 EOF

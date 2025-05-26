@@ -17,4 +17,9 @@
 # File: movai-entrypoint.sh
 
 echo "Starting VNC server..."
+# add -d to startup args if not already present
+if [[ ! $@ =~ -d|--debug ]]; then
+    set -- "$@" -d
+fi
+
 exec /dockerstartup/vnc_startup.sh "${@}"
