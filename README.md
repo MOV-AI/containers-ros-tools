@@ -106,7 +106,13 @@ Run the CE variant with the following command:
 ```bash
 docker run -it --rm \
     --name ros-tools-ce \
-    --network $robot_network \
+    --network host \
+    --gpus all \
+    -e DISPLAY=$DISPLAY \
+    -e XAUTHORITY=$XAUTH \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    -v $XAUTH:$XAUTH \
+    -v ./rviz/:/headless/.rviz/:rw \
     ros-tools:ce
 ```
 
