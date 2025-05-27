@@ -47,8 +47,34 @@ log_debug() {
 
 ## cleanup function
 cleanup () {
-    log_info "Cleaning up..."
-    kill -s SIGTERM $!
+    log_info "Cleaning up VNC session..."
+
+    # Kill noVNC proxy process if running
+    if [ -n "$PID_SUB" ] && ps -p $PID_SUB > /dev/null; then
+        log_info "Terminating noVNC proxy process..."
+        kill -TERM $PID_SUB 2>/dev/null || true
+    fi
+
+    # Kill VNC server for current display
+    if [ -n "$DISPLAY" ]; then
+        log_info "Terminating VNC server on display $DISPLAY..."
+        vncserver -kill $DISPLAY >/dev/null 2>&1 || true
+    fi
+
+    # Clean up lock files
+    for lockfile in /tmp/.X*-lock /tmp/.X11-unix/X*; do
+        if [ -e "$lockfile" ]; then
+            log_info "Removing lock file: $lockfile"
+            rm -f "$lockfile"
+        fi
+    done
+
+    # Reset VNC password file
+    if [ -f "$HOME/.vnc/passwd" ]; then
+        log_info "Removing VNC password file..."
+        rm -f "$HOME/.vnc/passwd"
+    fi
+
     exit 0
 }
 
@@ -138,51 +164,94 @@ NOVNC_LOG="$STARTUPDIR/logs/novnc.log"
 VNC_LOG="$STARTUPDIR/logs/vnc.log"
 WM_LOG="$STARTUPDIR/logs/windowmanager.log"
 
-# Start noVNC with standardized logging
-"$NO_VNC_HOME"/utils/novnc_proxy --vnc localhost:"$VNC_PORT" --listen "$NO_VNC_PORT" > "$NOVNC_LOG" 2>&1 &
+# Function to handle service output
+handle_output() {
+    local prefix=$1
+    local logfile=$2
+    if [[ $VERBOSE == "true" ]]; then
+        sed "s/^/[$prefix] /"
+    else
+        tee -a "$logfile"
+    fi
+}
+
+# Start noVNC with appropriate output handling
+log_info "Starting noVNC web client..."
+if [[ $VERBOSE == "true" ]]; then
+    "$NO_VNC_HOME"/utils/novnc_proxy --vnc localhost:"$VNC_PORT" --listen "$NO_VNC_PORT" 2>&1 | handle_output "noVNC" "$NOVNC_LOG" &
+else
+    "$NO_VNC_HOME"/utils/novnc_proxy --vnc localhost:"$VNC_PORT" --listen "$NO_VNC_PORT" > "$NOVNC_LOG" 2>&1 &
+fi
 PID_SUB=$!
 log_debug "noVNC started with PID $PID_SUB"
 
 ## start VNC server
 log_info "Starting VNC server..."
-vncserver -kill $DISPLAY &> "$VNC_LOG" \
-    || rm -rfv /tmp/.X*-lock /tmp/.X11-unix &> "$VNC_LOG" \
-    || log_warn "No locks present"
+
+# Create necessary directories
+mkdir -p /tmp/.X11-unix
+chmod 1777 /tmp/.X11-unix
 
 log_info "Starting vncserver with params: VNC_COL_DEPTH=$VNC_COL_DEPTH, VNC_RESOLUTION=$VNC_RESOLUTION"
 
 vnc_cmd="vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION PasswordFile=$HOME/.vnc/passwd"
 if [[ ${VNC_PASSWORDLESS:-} == "true" ]]; then
-  vnc_cmd="${vnc_cmd} -SecurityTypes None"
+    vnc_cmd="${vnc_cmd} -SecurityTypes None"
 fi
 
 log_debug "VNC command: $vnc_cmd"
 
-## Add error handling for VNC server startup
-if ! $vnc_cmd > "$VNC_LOG" 2>&1; then
-    log_error "Failed to start VNC server. Check logs at $VNC_LOG"
-    exit 1
+## Start VNC server with appropriate output handling
+if [[ $VERBOSE == "true" ]]; then
+    eval "$vnc_cmd" 2>&1 | handle_output "VNC" "$VNC_LOG" || {
+        log_error "Failed to start VNC server"
+        exit 1
+    }
+else
+    if ! eval "$vnc_cmd" > "$VNC_LOG" 2>&1; then
+        log_error "Failed to start VNC server. Check logs at $VNC_LOG"
+        exit 1
+    fi
 fi
 
 log_info "Starting window manager..."
-$HOME/wm_startup.sh > "$WM_LOG" 2>&1 &
+if [[ $VERBOSE == "true" ]]; then
+    $HOME/wm_startup.sh 2>&1 | handle_output "WM" "$WM_LOG" &
+else
+    $HOME/wm_startup.sh > "$WM_LOG" 2>&1 &
+fi
 
 ## log connect options
 log_info "------------------ VNC environment started ------------------"
 log_info "VNCSERVER started on DISPLAY= $DISPLAY \n\t=> connect via VNC viewer with $VNC_IP:$VNC_PORT"
-log_info "noVNC HTML client started:\n\t=> connect via http://$VNC_IP:$NO_VNC_PORT/?password=...\n"
+log_info "noVNC HTML client started:\n\t=> connect via http://$VNC_IP:$NO_VNC_PORT/\n"
 
-if [[ $VERBOSE == "true" ]]; then
-    log_debug "Tailing log files from VNC, noVNC, and window manager"
-    echo "----"
-    tail -f "$VNC_LOG" "$NOVNC_LOG" "$WM_LOG" | grep -v "Connection reset by peer" &
-else
+# In non-verbose mode, show how to access logs
+if [[ $VERBOSE != "true" ]]; then
     log_info "To see the logs, run: tail -f $VNC_LOG $NOVNC_LOG $WM_LOG"
-    echo "----"
 fi
+echo "----"
 
 if $WAIT || [ -z "$1" ]; then
-    wait $PID_SUB
+    # Set up signal handlers
+    trap cleanup SIGINT SIGTERM SIGHUP
+
+    # Wait for noVNC proxy and monitor VNC server
+    while true; do
+        if ! ps -p $PID_SUB >/dev/null 2>&1; then
+            log_error "noVNC proxy process died, restarting..."
+            "$NO_VNC_HOME"/utils/novnc_proxy --vnc localhost:"$VNC_PORT" --listen "$NO_VNC_PORT" > "$NOVNC_LOG" 2>&1 &
+            PID_SUB=$!
+        fi
+
+        # Check if VNC server is running
+        if ! vncserver -list | grep -q "^$DISPLAY"; then
+            log_error "VNC server not running, restarting..."
+            $vnc_cmd > "$VNC_LOG" 2>&1
+        fi
+
+        sleep 5
+    done
 else
     # unknown option ==> call command
     log_info "Executing command:" "$@"
