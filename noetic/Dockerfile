@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an headless vnc image based on Ubuntu
 ARG DOCKER_REGISTRY="pubregistry.aws.cloud.mov.ai"
-FROM ${DOCKER_REGISTRY}/ce/movai-base-focal:v2.4.5
+FROM ${DOCKER_REGISTRY}/ce/movai-base-focal:v2.5.0
 
 LABEL description="MOV.AI Graphical Tools"
 LABEL maintainer="devops@mov.ai"
@@ -11,8 +11,6 @@ ARG USER_ID=1000
 ARG USER_NAME=movai
 ARG USER_HOME=/headless
 ARG ROS_VERSION="noetic"
-ARG ROS_GPG_KEY=C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-
 ARG VNC_PASSWORD="movai"
 ARG ROS_MASTER="ros-master"
 ARG ROS_MASTER_PORT="11311"
@@ -44,55 +42,64 @@ ENV HOME=${USER_HOME} \
     DEBIAN_FRONTEND=noninteractive \
     LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
-WORKDIR ${HOME}
-
 USER root
 
 ### Add all install scripts for further steps
 COPY files/common/install/ files/ubuntu/install/ $INST_SCRIPTS/
-COPY files/common/scripts $STARTUPDIR
-
 COPY files/ubuntu/icewm/ files/home $HOME/
-
 COPY files/bin /usr/local/bin/
-COPY files/movai-entrypoint.sh /usr/local/bin/
 
 ### Install some common tools
-RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
-    $INST_SCRIPTS/tools.sh && \
+WORKDIR ${INST_SCRIPTS}
+RUN find ./ -name '*.sh' -exec chmod a+x {} + && \
+    ./tools.sh && \
     ### Install custom fonts
-    $INST_SCRIPTS/install_custom_fonts.sh
-### Install xvnc-server & noVNC - HTML5 based VNC viewer
-RUN $INST_SCRIPTS/tigervnc.sh && \
-    $INST_SCRIPTS/no_vnc.sh
-
-### Install IceWM UI
-RUN $INST_SCRIPTS/icewm_ui.sh
-
-### Install Foxglove
-RUN $INST_SCRIPTS/foxglove.sh
-
-### Install ROS1 tools
-ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
-RUN $INST_SCRIPTS/ros-tools.sh && \
-    $INST_SCRIPTS/rqt.sh && \
+    ./install_custom_fonts.sh && \
+    ### Install xvnc-server & noVNC - HTML5 based VNC viewer
+    ./tigervnc.sh && \
+    ./no_vnc.sh && \
+    ### Install IceWM UI
+    ./icewm_ui.sh && \
+    ### Install Lichtblick
+    ./lichtblick.sh && \
+    ### Install ROS1 tools
+    ./ros-tools.sh && \
+    ./rqt.sh && \
     ### Clean
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    ### configure startup
-    $INST_SCRIPTS/libnss_wrapper.sh && \
-    $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR ${HOME} && \
-    chown -R movai:movai ${HOME} && \
-    # Clean apt
     apt-get autoremove -y && \
     apt-get clean -y > /dev/null && \
     rm -rf /var/cache/apt/* && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /var/tmp/* && \
+    rm -rf /tmp/*
 
-### Overwritting Rviz config
-RUN mkdir -p ~/.rviz
+
+### configure startup
+COPY files/movai-entrypoint.sh files/docker-entrypoint.sh /usr/local/bin/
+COPY files/common/scripts $STARTUPDIR
+RUN ./libnss_wrapper.sh && \
+    ./set_user_permission.sh $STARTUPDIR ${HOME} && \
+    chown -R movai:movai ${HOME} && \
+    ### Overwritting Rviz config
+    mkdir -p ~/.rviz
+
 COPY --chown=movai:movai files/home/default.rviz ~/.rviz/default.rviz
 
 USER movai
+
+ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
+
+### Validate required files
+RUN if [ ! -f "$INST_SCRIPTS/tools.sh" ]; then \
+        echo "Error: Missing required script 'tools.sh' in $INST_SCRIPTS."; \
+        exit 1; \
+    fi
+
+### Improve health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:${NO_VNC_PORT}/ || \
+        echo "Error: noVNC is not responding on port ${NO_VNC_PORT}" && exit 1
+
+
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["--wait"]

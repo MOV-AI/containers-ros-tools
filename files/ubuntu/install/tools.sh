@@ -13,4 +13,3 @@ rm -rf /var/lib/apt/lists/*
 echo "generate locales for $LANG"
 locale-gen "$LANG"
 dpkg-reconfigure locales
-

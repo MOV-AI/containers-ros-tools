@@ -1,5 +1,5 @@
 menu "Development" folder {
-prog "Foxglove Studio" foxglove-studio /usr/local/bin/foxglove
+prog "Lichtblick" lichtblick /usr/local/bin/lichtblick
 prog RViz /opt/ros/noetic/share/rviz/icons/package.png /usr/local/bin/rviz.sh
 }
 menu "System" folder {

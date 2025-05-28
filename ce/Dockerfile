@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an rviz image based on Ubuntu
 ARG DOCKER_REGISTRY="pubregistry.aws.cloud.mov.ai"
-FROM ${DOCKER_REGISTRY}/ce/movai-base-focal:v2.4.5
+FROM ${DOCKER_REGISTRY}/ce/movai-base-focal:v2.5.0
 
 LABEL description="MOV.AI Graphical Tools"
 LABEL maintainer="devops@mov.ai"
@@ -18,7 +18,8 @@ ENV HOME=${USER_HOME} \
     TERM=xterm \
     INST_SCRIPTS=/headless/install \
     DEBIAN_FRONTEND=noninteractive \
-    LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+    LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' \
+    QT_X11_NO_MITSHM=1
 
 ### ROS Config
 ENV ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
@@ -43,5 +44,4 @@ RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} + && \
     chown -R movai:movai ${HOME}
 
 USER movai
-ENTRYPOINT ["/usr/local/bin/rviz.sh"]
-CMD ["--wait"]
+ENTRYPOINT ["/usr/bin/rviz"]
