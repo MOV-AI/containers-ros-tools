@@ -6,7 +6,7 @@ LICHTBLICK_DEB_URL=https://github.com/lichtblick-suite/lichtblick/releases/downl
 
 mkdir -p /tmp/lichtblick
 
-wget --show-progress --progress=bar:force:noscroll $LICHTBLICK_DEB_URL -q -P /tmp/lichtblick
+wget --show-progress --progress=bar:force:noscroll "$LICHTBLICK_DEB_URL" -q -P /tmp/lichtblick
 
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
