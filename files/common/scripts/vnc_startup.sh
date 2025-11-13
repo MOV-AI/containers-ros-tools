@@ -45,6 +45,30 @@ log_debug() {
     fi
 }
 
+cleanup_stale_files() {
+    log_info "Performing cleanup of stale VNC/X11 files..."
+
+    # Remove stale X11 lock and socket files
+    for lockfile in /tmp/.X*-lock /tmp/.X11-unix/X*; do
+        if [ -e "$lockfile" ]; then
+            log_info "Removing lock file: $lockfile"
+            rm -f "$lockfile"
+        fi
+    done
+    rm -f /tmp/.X11-unix/X*
+
+    # Reset VNC password file
+    if [ -f "$HOME/.vnc/passwd" ]; then
+        log_info "Removing VNC password file..."
+        rm -f "$HOME/.vnc/passwd"
+    fi
+
+    # Remove old VNC PID files
+    rm -f /headless/.vnc/*.pid
+
+    log_info "[INFO] Cleanup complete."
+}
+
 ## cleanup function
 cleanup () {
     log_info "Cleaning up VNC session..."
@@ -61,19 +85,8 @@ cleanup () {
         vncserver -kill $DISPLAY >/dev/null 2>&1 || true
     fi
 
-    # Clean up lock files
-    for lockfile in /tmp/.X*-lock /tmp/.X11-unix/X*; do
-        if [ -e "$lockfile" ]; then
-            log_info "Removing lock file: $lockfile"
-            rm -f "$lockfile"
-        fi
-    done
-
-    # Reset VNC password file
-    if [ -f "$HOME/.vnc/passwd" ]; then
-        log_info "Removing VNC password file..."
-        rm -f "$HOME/.vnc/passwd"
-    fi
+    # Clean up stale files
+    cleanup_stale_files
 
     exit 0
 }
@@ -139,12 +152,11 @@ trap cleanup SIGINT SIGTERM
 VNC_IP=$(hostname -i || echo "127.0.0.1")
 mkdir -p "$HOME/.vnc"
 
-PASSWD_PATH="$HOME/.vnc/passwd"
-if [[ -f $PASSWD_PATH ]]; then
-    log_info "Removing old VNC password file: $PASSWD_PATH"
-    rm -f "$PASSWD_PATH"
-fi
+## cleanup potential relicates of previous runs
+cleanup_stale_files
 
+## set password
+PASSWD_PATH="$HOME/.vnc/passwd"
 if [[ $VNC_VIEW_ONLY == "true" ]]; then
     log_info "Starting VNC server in VIEW ONLY mode!"
     #create random pw to prevent access
