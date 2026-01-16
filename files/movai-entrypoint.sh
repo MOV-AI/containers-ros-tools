@@ -16,5 +16,10 @@
 #
 # File: movai-entrypoint.sh
 
-echo "Starting VNC server..."
+# add --verbose to startup args if not already present
+if [[ ! $* =~ -v|--verbose ]]; then
+    set -- "$@" --verbose
+fi
+
+echo "Starting VNC server with arguments:" "$@"
 exec /dockerstartup/vnc_startup.sh "${@}"
