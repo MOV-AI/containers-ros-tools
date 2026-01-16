@@ -48,7 +48,6 @@ USER root
 COPY files/common/install/ files/ubuntu/install/ $INST_SCRIPTS/
 COPY files/ubuntu/icewm/ files/home $HOME/
 COPY files/bin /usr/local/bin/
-COPY files/movai-entrypoint.sh /usr/local/bin/
 
 ### Install some common tools
 WORKDIR ${INST_SCRIPTS}
