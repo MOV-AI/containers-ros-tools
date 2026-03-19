@@ -299,16 +299,26 @@ Visualization Manager:
           Enabled: true
           Marker Topic: /obstacle_protection_footprint
           Name: protection_area
-          Namespaces: {}
+          Namespaces:
+            footprint: true
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
-          Enabled: false
+          Enabled: true
           Marker Topic: /obstacle_warning_footprint
           Name: warning_area
-          Namespaces: {}
+          Namespaces:
+            footprint: true
           Queue Size: 100
-          Value: false
+          Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /obstacle_scouting_footprint
+          Name: scouting_area
+          Namespaces:
+            footprint: true
+          Queue Size: 100
+          Value: true
       Enabled: true
       Name: Obstacle_Detection
     - Class: rviz/Group
