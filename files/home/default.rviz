@@ -707,7 +707,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: Global Costmap
-          Topic: /tugbot__navigation__core__autonomous__move_base/global_costmap/costmap
+          Topic: /tugbot_autonomy_sim__autonomy_flow__navigation__core__autonomous__move_base/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -717,7 +717,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: Local Costmap
-          Topic: /tugbot__navigation__core__autonomous__move_base/local_costmap/costmap
+          Topic: /tugbot_autonomy_sim__autonomy_flow__navigation__core__autonomous__move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
