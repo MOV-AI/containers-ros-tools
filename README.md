@@ -15,11 +15,12 @@ Image is built in 2 flavours:
 The containers-ros-tools repository provides Docker images for ROS visualization and debugging tools, designed for the MOV.AI Framework. It offers two main variants:
 
 1. Full ROS Tools (noetic):
-   - Complete ROS visualization suite
-   - Headless VNC support
-   - RQT tools
-   - Integrated IceWM interface
-   - Lichtblick integration
+    - Complete ROS visualization suite
+    - RViz for ROS1 and RViz2 for ROS2
+    - Headless VNC support
+    - RQT tools
+    - Integrated IceWM interface
+    - Lichtblick integration
 
 2. CE (Community Edition):
    - Lightweight variant
@@ -38,6 +39,7 @@ The containers-ros-tools repository provides Docker images for ROS visualization
   - Configurable ROS master URI
 - Tool Suite (noetic variant)
   - RViz
+  - RViz2
   - RQT
   - IceWM window manager
   - Lichtblick toolkit
@@ -57,6 +59,8 @@ Build ROS TOOLS image based on ROS noetic:
 docker build -t ros-tools:noetic -f noetic/Dockerfile .
 ```
 
+The noetic image now includes ROS1 RViz and ROS2 RViz2 on top of the Ubuntu Focal base image.
+
 Build ROS TOOLS image for CE (contains only Rviz and no ROS components):
 ```bash
 docker build -t ros-tools:ce -f ce/Dockerfile .
@@ -75,6 +79,8 @@ docker run -it --rm \
     --gpus all \
     ros-tools:noetic
 ```
+
+After connecting through noVNC, both RViz and RViz2 are available from the IceWM menu and toolbar. The container ships with dedicated default configurations for each viewer.
 
 ### Advanced Usage Examples
 

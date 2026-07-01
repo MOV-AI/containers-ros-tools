@@ -1,6 +1,7 @@
 menu "Development" folder {
 prog "Lichtblick" lichtblick /usr/local/bin/lichtblick
-prog RViz /opt/ros/noetic/share/rviz/icons/package.png /usr/local/bin/rviz.sh
+prog "RViz" /opt/ros/noetic/share/rviz/icons/package.png /usr/local/bin/rviz.sh
+prog "RViz2" /opt/ros/noetic/share/rviz/icons/package.png /usr/local/bin/rviz2.sh
 }
 menu "System" folder {
 menu "TerminalEmulator" folder {

@@ -65,6 +65,8 @@ RUN find ./ -name '*.sh' -exec chmod a+x {} + && \
     ### Install ROS1 tools
     ./ros-tools.sh && \
     ./rqt.sh && \
+    ### Install ROS2 RViz2
+    ./rviz2.sh && \
     ### Clean
     apt-get autoremove -y && \
     apt-get clean -y > /dev/null && \
@@ -83,7 +85,8 @@ RUN ./libnss_wrapper.sh && \
     ### Overwritting Rviz config
     mkdir -p ~/.rviz
 
-COPY --chown=movai:movai files/home/default.rviz ~/.rviz/default.rviz
+COPY --chown=movai:movai files/home/default.rviz /headless/.rviz/default.rviz
+COPY --chown=movai:movai files/home/ros2-default.rviz /headless/.rviz/ros2-default.rviz
 
 USER movai
 
