@@ -1,0 +1,11 @@
+version: 2.5.3
+
+images:
+  - name: ros-tools-noetic
+    docker_file: noetic/Dockerfile
+    docker_image: devops/ros-tools-noetic
+  - name: ros-tools-ce
+    docker_file: ce/Dockerfile
+    docker_image: devops/ros-tools-ce
+    public_image: ce/ros-tools-ce
+    public: true
