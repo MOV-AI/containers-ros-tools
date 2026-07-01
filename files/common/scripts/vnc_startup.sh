@@ -64,9 +64,9 @@ cleanup_stale_files() {
     fi
 
     # Remove old VNC PID files
-    rm -f /headless/.vnc/*.pid
+    rm -f "$HOME/.vnc/"*.pid
 
-    log_info "[INFO] Cleanup complete."
+    log_info "Cleanup complete."
 }
 
 ## cleanup function
