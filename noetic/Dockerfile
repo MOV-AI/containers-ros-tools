@@ -85,8 +85,8 @@ RUN ./libnss_wrapper.sh && \
     ### Overwritting Rviz config
     mkdir -p ~/.rviz
 
-COPY --chown=movai:movai files/home/default.rviz ~/.rviz/default.rviz
-COPY --chown=movai:movai files/home/ros2-default.rviz ~/.rviz/ros2-default.rviz
+COPY --chown=movai:movai files/home/default.rviz /headless/.rviz/default.rviz
+COPY --chown=movai:movai files/home/ros2-default.rviz /headless/.rviz/ros2-default.rviz
 
 USER movai
 
