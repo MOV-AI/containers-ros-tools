@@ -15,12 +15,12 @@ Image is built in 2 flavours:
 The containers-ros-tools repository provides Docker images for ROS visualization and debugging tools, designed for the MOV.AI Framework. It offers two main variants:
 
 1. Full ROS Tools (noetic):
-  - Complete ROS visualization suite
-  - RViz for ROS1 and RViz2 for ROS2
-  - Headless VNC support
-  - RQT tools
-  - Integrated IceWM interface
-  - Lichtblick integration
+    - Complete ROS visualization suite
+    - RViz for ROS1 and RViz2 for ROS2
+    - Headless VNC support
+    - RQT tools
+    - Integrated IceWM interface
+    - Lichtblick integration
 
 2. CE (Community Edition):
    - Lightweight variant
