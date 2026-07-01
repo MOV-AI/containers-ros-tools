@@ -65,7 +65,6 @@ cleanup_stale_files() {
 
     # Remove old VNC PID files
     rm -f "$HOME/.vnc/"*.pid
-
     log_info "Cleanup complete."
 }
 
