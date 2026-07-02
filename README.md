@@ -121,7 +121,6 @@ docker run -it --rm \
     -v ./rviz/:/headless/.rviz/:rw \
     ros-tools:ce
 ```
-
 ## License
 
 Forked from https://github.com/ConSol/docker-headless-vnc-container
