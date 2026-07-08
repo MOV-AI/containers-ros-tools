@@ -12,7 +12,7 @@ on:
     types: [released]
 jobs:
   build-and-deploy:
-    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@feat/docker_sbom_cycloneDX_reviewed
+    uses: MOV-AI/.github/.github/workflows/docker-workflow.yml@v3
     with:
       manifest_file: images-manifest.yml
       create_release: ${{ contains(github.ref, 'refs/heads/main') || contains(github.ref, 'refs/tags/v') }}
