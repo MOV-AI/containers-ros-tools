@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LICHTBLICK_VERSION=1.11.0
+LICHTBLICK_VERSION=1.28.1
 LICHTBLICK_ARCH=amd64
 LICHTBLICK_DEB_URL=https://github.com/lichtblick-suite/lichtblick/releases/download/v${LICHTBLICK_VERSION}/lichtblick-${LICHTBLICK_VERSION}-linux-${LICHTBLICK_ARCH}.deb
 
@@ -9,6 +9,7 @@ mkdir -p /tmp/lichtblick
 wget --show-progress --progress=bar:force:noscroll "$LICHTBLICK_DEB_URL" -q -P /tmp/lichtblick
 
 apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libasound2
 DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     /tmp/lichtblick/lichtblick-${LICHTBLICK_VERSION}-linux-${LICHTBLICK_ARCH}.deb
 

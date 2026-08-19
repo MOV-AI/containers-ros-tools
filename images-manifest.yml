@@ -4,6 +4,9 @@ images:
   - name: ros-tools-noetic
     docker_file: noetic/Dockerfile
     docker_image: devops/ros-tools-noetic
+  - name: ros-tools-humble
+    docker_file: humble/Dockerfile
+    docker_image: devops/ros-tools-humble
   - name: ros-tools-ce
     docker_file: ce/Dockerfile
     docker_image: devops/ros-tools-ce

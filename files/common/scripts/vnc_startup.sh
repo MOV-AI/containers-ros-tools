@@ -45,6 +45,39 @@ log_debug() {
     fi
 }
 
+resolve_vnc_password_binary() {
+    if command -v vncpasswd >/dev/null 2>&1; then
+        echo "vncpasswd"
+        return 0
+    fi
+
+    if command -v tigervncpasswd >/dev/null 2>&1; then
+        echo "tigervncpasswd"
+        return 0
+    fi
+
+    return 1
+}
+
+is_vnc_running() {
+    local display_with_colon display_without_colon
+    local vnc_list_output
+    display_with_colon="$DISPLAY"
+    display_without_colon="${DISPLAY#:}"
+
+    vnc_list_output="$(vncserver -list 2>&1 || true)"
+
+    if awk -v d1="$display_with_colon" -v d2="$display_without_colon" '$1 == d1 || $1 == d2 { found=1 } END { exit !found }' <<< "$vnc_list_output"; then
+        return 0
+    fi
+
+    if [[ $VERBOSE == "true" ]]; then
+        log_debug "vncserver -list output when no session matched DISPLAY=$DISPLAY:\n$vnc_list_output"
+    fi
+
+    return 1
+}
+
 cleanup_stale_files() {
     log_info "Performing cleanup of stale VNC/X11 files..."
 
@@ -156,12 +189,17 @@ cleanup_stale_files
 
 ## set password
 PASSWD_PATH="$HOME/.vnc/passwd"
+if ! VNC_PASSWD_BIN="$(resolve_vnc_password_binary)"; then
+    log_error "No VNC password utility found. Install TigerVNC tools (expected vncpasswd or tigervncpasswd)."
+    exit 1
+fi
+
 if [[ $VNC_VIEW_ONLY == "true" ]]; then
     log_info "Starting VNC server in VIEW ONLY mode!"
     #create random pw to prevent access
-    head /dev/urandom | tr -dc A-Za-z0-9 | head -c 20 | vncpasswd -f > "$PASSWD_PATH"
+    head /dev/urandom | tr -dc A-Za-z0-9 | head -c 20 | "$VNC_PASSWD_BIN" -f > "$PASSWD_PATH"
 fi
-echo "$VNC_PASSWORD" | vncpasswd -f >> "$PASSWD_PATH"
+echo "$VNC_PASSWORD" | "$VNC_PASSWD_BIN" -f >> "$PASSWD_PATH"
 chmod 600 "$PASSWD_PATH"
 log_info "VNC password file created at $PASSWD_PATH"
 
@@ -256,9 +294,13 @@ if $WAIT || [ -z "$1" ]; then
         fi
 
         # Check if VNC server is running
-        if ! vncserver -list | grep -q "^$DISPLAY"; then
+        if ! is_vnc_running; then
             log_error "VNC server not running, restarting..."
-            $vnc_cmd > "$VNC_LOG" 2>&1
+
+            # Keep monitor loop alive under set -e if restart fails.
+            if ! eval "$vnc_cmd" > "$VNC_LOG" 2>&1; then
+                log_error "VNC restart failed. Keeping monitor loop alive. Check $VNC_LOG"
+            fi
         fi
 
         sleep 5

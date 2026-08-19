@@ -4,12 +4,13 @@
 
 ROS TOOLS Docker image for MOV.AI Framework
 
-Image is built in 2 flavours:
+Image is built in 3 flavours:
 
 | Flavour | Base Image | Python |
 | ------- | ---------- | ------ |
-| ros-tools-noetic | movai-base-focal:v2.5.0 | 3.8.10 |
-| ros-tools-ce | movai-base-focal:v2.5.0 | 3.8.10 |
+| ros-tools-noetic | movai-base-focal:2.7.8 | 3.8.10 |
+| ros-tools-ce | movai-base-focal:2.7.8 | 3.8.10 |
+| ros-tools-humble | movai-base-humble:2.7.8 | 3.10.12 |
 
 ## About
 The containers-ros-tools repository provides Docker images for ROS visualization and debugging tools, designed for the MOV.AI Framework. It offers two main variants:
