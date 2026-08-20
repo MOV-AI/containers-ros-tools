@@ -94,6 +94,7 @@ RUN ./libnss_wrapper.sh && \
 
 COPY --chown=movai:movai files/home/default.rviz /headless/.rviz/default.rviz
 COPY --chown=movai:movai files/home/ros2-default.rviz /headless/.rviz/ros2-default.rviz
+COPY --chown=movai:movai files/fastdds_udp_only.xml /headless/fastdds_udp_only.xml
 
 USER movai
 
