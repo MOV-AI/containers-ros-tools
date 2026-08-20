@@ -12,7 +12,7 @@ fi
 
 if [ ! -f /etc/apt/sources.list.d/ros2.list ]; then
     if [ "${ROS_DISTRO}" == "noetic" ]; then
-        echo "deb [signed-by=/usr/share/keyrings/ros.key] https://artifacts.aws.cloud.mov.ai/repository/ppa-proxy-ros $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros.key] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
     elif [ "${ROS_DISTRO}" == "humble" ]; then
         echo "deb [signed-by=/usr/share/keyrings/ros.key] https://artifacts.aws.cloud.mov.ai/repository/ppa-proxy-ros2 $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
     fi

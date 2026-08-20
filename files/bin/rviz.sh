@@ -1,6 +1,9 @@
 #!/bin/bash
 # File: rviz.sh
 set -e
+
+ROS_DISTRO=${ROS_DISTRO:-noetic}
+
 if [ -f /opt/ros/$ROS_DISTRO/setup.bash ]; then
     echo "Sourcing ROS $ROS_DISTRO setup.bash"
     . /opt/ros/$ROS_DISTRO/setup.bash

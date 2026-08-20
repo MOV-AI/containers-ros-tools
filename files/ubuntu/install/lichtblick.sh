@@ -9,6 +9,7 @@ mkdir -p /tmp/lichtblick
 wget --show-progress --progress=bar:force:noscroll "$LICHTBLICK_DEB_URL" -q -P /tmp/lichtblick
 
 apt-get update
+# Install dependencies for Lichtblick
 DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libasound2
 DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     /tmp/lichtblick/lichtblick-${LICHTBLICK_VERSION}-linux-${LICHTBLICK_ARCH}.deb
