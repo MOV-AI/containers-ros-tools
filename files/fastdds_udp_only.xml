@@ -17,6 +17,15 @@
         <userTransports>
           <transport_id>udp_transport</transport_id>
         </userTransports>
+        <builtin>
+          <initialPeersList>
+            <locator>
+              <udpv4>
+                <address>ros2-workspace</address>
+              </udpv4>
+            </locator>
+          </initialPeersList>
+        </builtin>
       </rtps>
     </participant>
   </profiles>

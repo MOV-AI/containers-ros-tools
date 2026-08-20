@@ -20,5 +20,6 @@ export ROS_MASTER_URI="http://${ROS_MASTER}:${ROS_MASTER_PORT}"
 export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 export ROS_DISCOVERY_SERVER="${ROS2_DDS_DISCOVERY_SERVER}:${ROS2_DDS_DISCOVERY_SERVER_PORT}"
 export FASTRTPS_DEFAULT_PROFILES_FILE=/headless/fastdds_udp_only.xml
+export ROS_SUPER_CLIENT=TRUE
 
 "/opt/ros/${ROS2_DISTRO}/bin/rviz2" "-d" "/headless/ros2-default.rviz"
