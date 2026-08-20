@@ -63,10 +63,9 @@ RUN find ./ -name '*.sh' -exec chmod a+x {} + && \
     ### Install IceWM UI
     ./icewm_ui.sh && \
     ### Install Lichtblick
-    ./lichtblick.sh
-
-### Install ROS1 tools
-RUN if [ "${ROS_VERSION}" = "noetic" ]; then ./ros-tools.sh; fi && \
+    ./lichtblick.sh && \
+    ### Install ROS1 tools
+    if [ "${ROS_VERSION}" = "noetic" ]; then ./ros-tools.sh; fi && \
     ### Install ROS2 RViz2
     ./rviz2.sh && \
     ### Install ROS RQt
