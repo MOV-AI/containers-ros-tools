@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an headless vnc image based on Ubuntu
 ARG DOCKER_REGISTRY="pubregistry.aws.cloud.mov.ai"
-FROM ${DOCKER_REGISTRY}/ce/movai-base-focal:2.7.8
+FROM ${DOCKER_REGISTRY}/ce/movai-base-humble:2.7.8
 
 LABEL description="MOV.AI Graphical Tools"
 LABEL maintainer="devops@mov.ai"
@@ -10,7 +10,7 @@ LABEL environment="develop"
 ARG USER_ID=1000
 ARG USER_NAME=movai
 ARG USER_HOME=/headless
-ARG ROS_VERSION="noetic"
+ARG ROS_VERSION="humble"
 ARG VNC_PASSWORD="movai"
 ARG ROS_MASTER="ros-master"
 ARG ROS_MASTER_PORT="11311"
@@ -30,10 +30,10 @@ ENV DISPLAY=:1 \
     ROS_VERSION=${ROS_VERSION} \
     ROS_MASTER=${ROS_MASTER} \
     ROS_MASTER_PORT=${ROS_MASTER_PORT} \
-    ROS_DISTRO=noetic \
-    ROS2_DISTRO=foxy \
-    RVIZ_ICON_PATH=/opt/ros/noetic/share/rviz/icons/ \
-    RQT_ICON_PATH=/opt/ros/noetic/share/rqt_gui/resource/
+    ROS_DISTRO=humble \
+    ROS2_DISTRO=humble \
+    RVIZ_ICON_PATH=/opt/ros/humble/share/rviz_common/icons/ \
+    RQT_ICON_PATH=/opt/ros/humble/share/rqt_gui/resource/
 
 EXPOSE $VNC_PORT $NO_VNC_PORT
 
@@ -63,13 +63,12 @@ RUN find ./ -name '*.sh' -exec chmod a+x {} + && \
     ./no_vnc.sh && \
     ### Install IceWM UI
     ./icewm_ui.sh && \
-    ### Install Lichtblick
-    ./lichtblick.sh && \
-    ### Install ROS1 tools
-    ./ros-tools.sh && \
-    ./rqt.sh && \
+    ### Install Lichtblick & ROS1 tools
+    if [ "${ROS_VERSION}" = "noetic" ]; then ./lichtblick.sh && ./ros-tools.sh; fi && \
     ### Install ROS2 RViz2
     ./rviz2.sh && \
+    ### Install ROS RQt
+    ./rqt.sh; \
     ### Clean
     apt-get autoremove -y && \
     apt-get clean -y > /dev/null && \
@@ -78,7 +77,6 @@ RUN find ./ -name '*.sh' -exec chmod a+x {} + && \
     rm -rf /var/tmp/* && \
     rm -rf /tmp/*
 
-
 ### configure startup
 COPY files/movai-entrypoint.sh files/docker-entrypoint.sh /usr/local/bin/
 COPY files/common/scripts $STARTUPDIR
@@ -86,8 +84,8 @@ RUN ./libnss_wrapper.sh && \
     ./set_user_permission.sh $STARTUPDIR ${HOME} && \
     ./customize_icewm.sh ${HOME} ${ROS_VERSION} && \
     chown -R movai:movai ${HOME} && \
-    ### Overwritting Rviz config
-    mkdir -p ~/.rviz
+    ### Overwriting Rviz config
+    mkdir -p "${HOME}/.rviz"
 
 COPY --chown=movai:movai files/home/default.rviz /headless/.rviz/default.rviz
 COPY --chown=movai:movai files/home/ros2-default.rviz /headless/.rviz/ros2-default.rviz
@@ -111,3 +109,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["--wait"]
+WORKDIR ${HOME}

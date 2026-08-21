@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 ### every exit != 0 fails the script
 set -e
+ROS_DISTRO=${ROS_DISTRO:-noetic}
+
+if [ "${ROS_DISTRO}" != "noetic" ]; then
+    echo "Unsupported ROS distribution: ${ROS_DISTRO}"
+    exit 1
+fi
 
 echo "Setup movai ROS-Tools mirror repo"
 curl -fsSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | gpg --dearmor -o /usr/share/keyrings/ros.key
