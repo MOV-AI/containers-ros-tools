@@ -32,5 +32,5 @@ if [ "${ROS_DISTRO}" == "noetic" ]; then
     sed -i 's/^deb/#deb/g' /etc/apt/sources.list.d/ros2.list
 else
     # Point Rviz to Rviz2
-    ln -sf /opt/ros/humble/bin/rviz2 /opt/ros/humble/bin/rviz
+    ln -sf "/opt/ros/${ROS2_DISTRO}/bin/rviz2" "/opt/ros/${ROS2_DISTRO}/bin/rviz"
 fi

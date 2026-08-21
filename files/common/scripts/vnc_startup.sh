@@ -298,7 +298,9 @@ if $WAIT || [ -z "$1" ]; then
             log_error "VNC server not running, restarting..."
 
             # Keep monitor loop alive under set -e if restart fails.
-            if ! eval "$vnc_cmd" > "$VNC_LOG" 2>&1; then
+            # shellcheck disable=SC2206
+            vnc_cmd_argv=($vnc_cmd)
+            if ! "${vnc_cmd_argv[@]}" > "$VNC_LOG" 2>&1; then
                 log_error "VNC restart failed. Keeping monitor loop alive. Check $VNC_LOG"
             fi
         fi

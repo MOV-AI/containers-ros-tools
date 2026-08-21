@@ -88,8 +88,8 @@ RUN ./libnss_wrapper.sh && \
     envsubst < ${HOME}/.icewm/toolbar > /tmp/.icewm-toolbar && \
     mv /tmp/.icewm-toolbar ${HOME}/.icewm/toolbar && \
     chown -R movai:movai ${HOME} && \
-    ### Overwritting Rviz config
-    mkdir -p ~/.rviz
+    ### Overwriting Rviz config
+    mkdir -p "${HOME}/.rviz"
 
 COPY --chown=movai:movai files/home/default.rviz /headless/.rviz/default.rviz
 COPY --chown=movai:movai files/home/ros2-default.rviz /headless/.rviz/ros2-default.rviz
