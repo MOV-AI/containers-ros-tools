@@ -32,7 +32,8 @@ ENV DISPLAY=:1 \
     ROS_MASTER_PORT=${ROS_MASTER_PORT} \
     ROS_DISTRO=humble \
     ROS2_DISTRO=humble \
-    RVIZ_ICON_PATH=/opt/ros/humble/share/rviz_common/icons/
+    RVIZ_ICON_PATH=/opt/ros/humble/share/rviz_common/icons/ \
+    RQT_ICON_PATH=/opt/ros/humble/share/rqt_gui/resource/
 
 EXPOSE $VNC_PORT $NO_VNC_PORT
 
@@ -62,10 +63,8 @@ RUN find ./ -name '*.sh' -exec chmod a+x {} + && \
     ./no_vnc.sh && \
     ### Install IceWM UI
     ./icewm_ui.sh && \
-    ### Install Lichtblick
-    ./lichtblick.sh && \
-    ### Install ROS1 tools
-    if [ "${ROS_VERSION}" = "noetic" ]; then ./ros-tools.sh; fi && \
+    ### Install Lichtblick & ROS1 tools
+    if [ "${ROS_VERSION}" = "noetic" ]; then ./lichtblick.sh && ./ros-tools.sh; fi && \
     ### Install ROS2 RViz2
     ./rviz2.sh && \
     ### Install ROS RQt
@@ -83,10 +82,7 @@ COPY files/movai-entrypoint.sh files/docker-entrypoint.sh /usr/local/bin/
 COPY files/common/scripts $STARTUPDIR
 RUN ./libnss_wrapper.sh && \
     ./set_user_permission.sh $STARTUPDIR ${HOME} && \
-    envsubst < ${HOME}/.icewm/menu > /tmp/.icewm-menu && \
-    mv /tmp/.icewm-menu ${HOME}/.icewm/menu && \
-    envsubst < ${HOME}/.icewm/toolbar > /tmp/.icewm-toolbar && \
-    mv /tmp/.icewm-toolbar ${HOME}/.icewm/toolbar && \
+    ./customize_icewm.sh ${HOME} ${ROS_VERSION} && \
     chown -R movai:movai ${HOME} && \
     ### Overwriting Rviz config
     mkdir -p "${HOME}/.rviz"

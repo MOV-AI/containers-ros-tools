@@ -32,7 +32,8 @@ ENV DISPLAY=:1 \
     ROS_MASTER_PORT=${ROS_MASTER_PORT} \
     ROS_DISTRO=noetic \
     ROS2_DISTRO=foxy \
-    RVIZ_ICON_PATH=/opt/ros/noetic/share/rviz/icons/
+    RVIZ_ICON_PATH=/opt/ros/noetic/share/rviz/icons/ \
+    RQT_ICON_PATH=/opt/ros/noetic/share/rqt_gui/resource/
 
 EXPOSE $VNC_PORT $NO_VNC_PORT
 
@@ -83,6 +84,7 @@ COPY files/movai-entrypoint.sh files/docker-entrypoint.sh /usr/local/bin/
 COPY files/common/scripts $STARTUPDIR
 RUN ./libnss_wrapper.sh && \
     ./set_user_permission.sh $STARTUPDIR ${HOME} && \
+    ./customize_icewm.sh ${HOME} ${ROS_VERSION} && \
     chown -R movai:movai ${HOME} && \
     ### Overwritting Rviz config
     mkdir -p ~/.rviz
