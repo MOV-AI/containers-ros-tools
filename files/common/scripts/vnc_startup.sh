@@ -1,4 +1,5 @@
 #!/bin/bash
+VERBOSE=${VERBOSE:-false}
 ## every exit != 0 fails the script
 set -e
 

@@ -23,6 +23,11 @@ fi
 install -d -m 0755 /usr/share/keyrings
 curl -fsSL "$KEY_URL" | gpg --dearmor -o "$KEYRING_PATH"
 
+if [ ! -f "$KEYRING_PATH" ]; then
+    echo "Error: Failed to fetch or write VirtualGL GPG keyring to $KEYRING_PATH"
+    exit 1
+fi
+
 cat > "$SOURCE_LIST_PATH" <<EOF
 deb [signed-by=$KEYRING_PATH] https://packagecloud.io/dcommander/virtualgl/ubuntu/ $CODENAME main
 EOF

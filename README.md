@@ -54,6 +54,8 @@ Environment variables:
 - `VNC_VIEW_ONLY`: Enable view-only mode (default: false)
 - `RENDER_BACKEND`: Rendering mode for RViz in headless images (`default` or `virtualgl`, default: `default`)
 - `VGL_DISPLAY`: VirtualGL display target when using `RENDER_BACKEND=virtualgl` (default: `egl`; set `:1` to force Xvnc)
+
+> **Note:** `RENDER_BACKEND` and `VGL_DISPLAY` are supported only in the `noetic` and `humble` variants. The CE (Community Edition) variant does not support these options.
     - `egl` stands for Embedded-System Graphics Library. In this context it uses a headless GPU rendering path without requiring an X11 display server.
 
 ## Usage
