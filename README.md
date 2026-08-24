@@ -191,16 +191,21 @@ docker run -it --rm \
 ```
 
 Intel runtime variant:
-```bash
-docker run -it --rm \
-    --name ros-tools-humble-vgl-intel \
-    --network $robot_network \
-    --device /dev/dri:/dev/dri \
-    --group-add $RENDER_GID \
-    --group-add $CARD_GID \
-    -e RENDER_BACKEND=virtualgl \
-    ros-tools:humble
-```
+
+    RENDER_NODE=${RENDER_NODE:-$(ls /dev/dri/renderD* 2>/dev/null | head -n1)}
+    CARD_NODE=${CARD_NODE:-$(ls /dev/dri/card* 2>/dev/null | head -n1)}
+
+    RENDER_GID=$(stat -c '%g' "$RENDER_NODE")
+    CARD_GID=$(stat -c '%g' "$CARD_NODE")
+
+    docker run -it --rm \
+        --name ros-tools-humble-vgl-intel \
+        --network $robot_network \
+        --device /dev/dri:/dev/dri \
+        --group-add $RENDER_GID \
+        --group-add $CARD_GID \
+        -e RENDER_BACKEND=virtualgl \
+        ros-tools:humble
 
 Notes:
 - Default behavior is unchanged. VirtualGL is only used when `RENDER_BACKEND=virtualgl`.
