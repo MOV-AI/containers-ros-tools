@@ -88,6 +88,7 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
+alias ls='ls --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
@@ -114,7 +115,7 @@ if [ "$TERM" != "linux" ] && [ -f "/usr/local/bin/powerline-go" ]; then
 fi
 
 if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then
-    source "/opt/ros/$ROS_DISTRO/setup.bash"
+    source "/opt/ros/${ROS_DISTRO}/setup.bash"
 fi
 
 # Set ROS_MASTER_URI using ROS_MASTER and ROS_MASTER_PORT environment variables
@@ -129,3 +130,18 @@ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 export ROS_DISCOVERY_SERVER="${ROS2_DDS_DISCOVERY_SERVER}:${ROS2_DDS_DISCOVERY_SERVER_PORT}"
 export FASTRTPS_DEFAULT_PROFILES_FILE=/headless/fastdds_udp_only.xml
 export ROS_SUPER_CLIENT=TRUE
+
+echo "=================================================="
+echo "ROS environment"
+echo "--------------------------------------------------"
+echo "    ROS_DISTRO: ${ROS_DISTRO:-unset}"
+echo "    ROS_MASTER_URI: ${ROS_MASTER_URI:-unset}"
+echo ""
+if [ "${ROS_DISTRO}" != "noetic" ]; then
+echo "  ROS 2"
+echo "    RMW_IMPLEMENTATION: ${RMW_IMPLEMENTATION:-unset}"
+echo "    ROS_DISCOVERY_SERVER: ${ROS_DISCOVERY_SERVER:-unset}"
+echo "    FASTRTPS_DEFAULT_PROFILES_FILE: ${FASTRTPS_DEFAULT_PROFILES_FILE:-unset}"
+echo "    ROS_SUPER_CLIENT: ${ROS_SUPER_CLIENT:-unset}"
+fi
+echo "=================================================="
