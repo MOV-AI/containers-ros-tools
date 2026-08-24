@@ -56,6 +56,7 @@ COPY files/bin /usr/local/bin/
 WORKDIR ${INST_SCRIPTS}
 RUN find ./ -name '*.sh' -exec chmod a+x {} + && \
     ./tools.sh && \
+    ./virtualgl.sh && \
     ### Install custom fonts
     ./install_custom_fonts.sh && \
     ### Install xvnc-server & noVNC - HTML5 based VNC viewer
