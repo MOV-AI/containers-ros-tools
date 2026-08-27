@@ -1,4 +1,5 @@
 #!/bin/bash
+VERBOSE=${VERBOSE:-false}
 ## every exit != 0 fails the script
 set -e
 
@@ -42,6 +43,47 @@ log_error() {
 log_debug() {
     if [ "${VERBOSE:-false}" = "true" ]; then
         echo -e "$(date +"%Y-%m-%d %H:%M:%S") $LOG_DEBUG $*"
+    fi
+}
+
+log_gpu_context() {
+    log_info "GPU context summary"
+    log_info "DISPLAY=${DISPLAY:-unset}"
+    log_info "RENDER_BACKEND=${RENDER_BACKEND:-default}"
+    log_info "VGL_DISPLAY=${VGL_DISPLAY:-unset}"
+    log_info "NVIDIA_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-unset}"
+    log_info "NVIDIA_DRIVER_CAPABILITIES=${NVIDIA_DRIVER_CAPABILITIES:-unset}"
+    log_info "LIBGL_ALWAYS_SOFTWARE=${LIBGL_ALWAYS_SOFTWARE:-unset}"
+
+    if command -v vglrun >/dev/null 2>&1; then
+        log_info "VirtualGL launcher is available: $(command -v vglrun)"
+    else
+        log_info "VirtualGL launcher is not installed"
+    fi
+
+    if [ -d /dev/dri ]; then
+        log_info "/dev/dri is present"
+        ls -l /dev/dri 2>/dev/null | sed 's/^/    /' || true
+    else
+        log_warn "/dev/dri is not present (Intel/DRI acceleration unavailable)"
+    fi
+
+    if compgen -G "/dev/nvidia*" >/dev/null; then
+        log_info "NVIDIA device nodes are present"
+        ls -l /dev/nvidia* 2>/dev/null | sed 's/^/    /' || true
+    else
+        log_info "NVIDIA device nodes are not present"
+    fi
+
+    if command -v nvidia-smi >/dev/null 2>&1; then
+        nvidia_smi_output=""
+        if nvidia_smi_output="$(nvidia-smi -L 2>/dev/null)"; then
+            printf '%s\n' "$nvidia_smi_output" | sed 's/^/    /'
+        else
+            log_warn "nvidia-smi is installed but could not query GPUs"
+        fi
+    else
+        log_info "nvidia-smi is not installed in this image"
     fi
 }
 
@@ -170,6 +212,9 @@ fi
 
 # should also source $STARTUPDIR/generate_container_user
 source $HOME/.bashrc
+if [[ $VERBOSE == "true" ]]; then
+    log_gpu_context
+fi
 
 if $SKIP; then
     log_info "Skipping VNC startup, executing command:" "${@:2}"
